@@ -1,0 +1,50 @@
+.form {
+  display: grid;
+  gap: 0.65rem;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid #d6e0e9;
+  border-radius: 0.5rem;
+  background: #fff;
+}
+
+.form h2,
+.form h3,
+.form p {
+  margin: 0;
+}
+
+.form input[type='number'] {
+  max-width: 16rem;
+  padding: 0.45rem;
+  border: 1px solid #9fb3c8;
+  border-radius: 0.3rem;
+}
+
+.form button {
+  justify-self: start;
+  padding: 0.55rem 1rem;
+  border: 0;
+  border-radius: 0.3rem;
+  color: #fff;
+  background: #164e7a;
+  cursor: pointer;
+}
+
+.form button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.tree {
+  max-height: 18rem;
+  overflow: auto;
+  border: 1px solid #d6e0e9;
+  border-radius: 0.3rem;
+  padding: 0.5rem;
+}
+
+.asset {
+  display: block;
+  margin: 0.3rem 0;
+}

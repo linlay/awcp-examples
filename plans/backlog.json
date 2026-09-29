@@ -1,0 +1,1837 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-09-20",
+  "currentScope": "B00～B07、O01～O16、S01～S05、P01～P10 与 Q01 已完成；Q02 模型评测待外部宿主，Q03 静态部署与清理已完成、待 Q02 前置验收；依赖相关验证按用户要求免除。",
+  "expectedCounts": {
+    "foundation": 8,
+    "office": 48,
+    "securities": 5,
+    "protocol": 10,
+    "quality": 3
+  },
+  "tasks": [
+    {
+      "id": "B00",
+      "title": "无页面工程骨架、Core 与 xgraph 接入",
+      "category": "foundation",
+      "milestone": "M0",
+      "status": "done",
+      "dependsOn": [],
+      "document": "foundation/B00.md",
+      "deliverables": [
+        "工程配置、空 React 根组件、AWCP Provider、三套源码解析配置。",
+        "计划目录、精确依赖版本、父级 workspace 登记。",
+        "xgraph 配置、src/** 与 plans/** 模块索引、Codex Stop 钩子和使用说明。"
+      ],
+      "acceptance": [
+        "无页面、菜单、路由实例和业务 Action。",
+        "源码与计划静态检查通过。",
+        "xgraph 可查询源码和任务文件，xgraph doctor 全项通过。",
+        "用户安装后通过空目录暴露及卸载恢复测试；在此之前不标记运行验收完成。"
+      ]
+    },
+    {
+      "id": "B01",
+      "title": "用户安装后的基线验收",
+      "category": "foundation",
+      "milestone": "M0",
+      "status": "done",
+      "dependsOn": [
+        "B00"
+      ],
+      "document": "foundation/B01.md",
+      "deliverables": [
+        "人工安装的结果记录及依赖解析说明。",
+        "lint、typecheck、test、build 和空白浏览器启动验证报告。",
+        "项目本地 xgraph CLI 版本、索引与诊断结果。",
+        "父级既有 34 条版本问题的单独处理记录。"
+      ],
+      "acceptance": [
+        "用户自行完成安装并明确要求继续；Agent 不执行安装命令。",
+        "Core/React 单实例解析正确，window.awcp.manual().sections 为空。",
+        "构建产物可运行，不依赖已有 admin 宿主；没有业务请求。",
+        "不得将上一轮 CDK 测试结果当作本项目测试结果。",
+        "项目本地 xgraph CLI 为 1.0.3，xgraph:status 和 xgraph:doctor 通过。"
+      ]
+    },
+    {
+      "id": "B02",
+      "title": "场景路由与页面作用域",
+      "category": "foundation",
+      "milestone": "M1",
+      "status": "done",
+      "dependsOn": [
+        "B01"
+      ],
+      "document": "foundation/B02.md",
+      "deliverables": [
+        "场景元数据类型、路由懒加载、空态与按场景变更的 site/scopeKey。",
+        "场景目录页和统一布局；这是后续页面开发任务，不在本次骨架内实施。"
+      ],
+      "acceptance": [
+        "只挂载当前场景的 Action；切页无旧方法泄漏。",
+        "数据筛选不触发 scope 轮换；业务对象切换按约定变更 scope。",
+        "目录可读取场景 ID 与 URL；宿主导航后重新发现能力。"
+      ]
+    },
+    {
+      "id": "B03",
+      "title": "虚构数据、repository 与复位",
+      "category": "foundation",
+      "milestone": "M1",
+      "status": "done",
+      "dependsOn": [
+        "B01"
+      ],
+      "document": "foundation/B03.md",
+      "deliverables": [
+        "员工、部门、客户、产品、单据、附件、文档版本和待办类型。",
+        "固定种子、模拟时钟、内存 repository、受限命名空间持久化及复位。"
+      ],
+      "acceptance": [
+        "相同种子和时钟产生可重现结果。",
+        "场景共享业务 ID；复位只清理本项目数据。",
+        "全部为虚构资料，不要求生产凭证。"
+      ]
+    },
+    {
+      "id": "B04",
+      "title": "Action 合同与字段错误模板",
+      "category": "foundation",
+      "milestone": "M1",
+      "status": "done",
+      "dependsOn": [
+        "B01"
+      ],
+      "document": "foundation/B04.md",
+      "deliverables": [
+        "页面/方法说明模板、Schema 与 examples 规范、业务错误辅助函数。",
+        "合同校验测试与方法结果类型约定。"
+      ],
+      "acceptance": [
+        "使用现行 manual 协议，不增加 outputSchema 或通用权限字段。",
+        "Schema 失败不启动业务写入，动态 validate 保持只读。",
+        "合法 examples 可按指定前提执行，错误样例放测试夹具。"
+      ]
+    },
+    {
+      "id": "B05",
+      "title": "AWCP 调试与调用记录面板",
+      "category": "foundation",
+      "milestone": "M1",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B04"
+      ],
+      "document": "foundation/B05.md",
+      "deliverables": [
+        "目录/章节查看、输入编辑、样例填充、字段错误、结果与取消入口。",
+        "请求耗时和业务状态变化展示，面板可收起。"
+      ],
+      "acceptance": [
+        "通过真实浏览器入口调用；不另建 Registry。",
+        "revision 失效时重新读取目录，不盲目重试写操作。",
+        "区分协议调用事件与业务审计。"
+      ]
+    },
+    {
+      "id": "B06",
+      "title": "表单、表格、组织选择与附件适配",
+      "category": "foundation",
+      "milestone": "M1",
+      "status": "done",
+      "dependsOn": [
+        "B03",
+        "B04"
+      ],
+      "document": "foundation/B06.md",
+      "deliverables": [
+        "共用表单与树选择模式，受控附件 assetId 交接。",
+        "按需引入精确版本 design-pc 与 UI 依赖；复用 ComboCondition 和 DataTable 原生能力。"
+      ],
+      "acceptance": [
+        "UI 与 AWCP 调用同一 service/状态入口。",
+        "原生表格只承诺 read/select，编辑/导出由业务适配实现。",
+        "合法 ID 来源可查，隐藏列不作为敏感信息的唯一保护。",
+        "新增依赖清单提交后等待用户安装。"
+      ]
+    },
+    {
+      "id": "B07",
+      "title": "审批状态机、业务版本与审计",
+      "category": "foundation",
+      "milestone": "M1",
+      "status": "done",
+      "dependsOn": [
+        "B03",
+        "B04"
+      ],
+      "document": "foundation/B07.md",
+      "deliverables": [
+        "可配置状态迁移、角色检查、业务幂等键、版本冲突和审计条目。",
+        "附件任务及异步 jobId/status 基础。"
+      ],
+      "acceptance": [
+        "service 写入原子核查角色、当前状态与业务版本。",
+        "重复提交不重复创建单据；requestId 不充当持久幂等键。",
+        "取消不伪报回滚，已受理与已完成可区分。"
+      ]
+    },
+    {
+      "id": "O01-01",
+      "title": "查询今日待办",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07"
+      ],
+      "document": "office/O01.md",
+      "deliverables": [
+        "实现 查询今日待办 的页面交互与 service 用例。",
+        "提供 office.todo.query 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "固定时钟下返回当前角色到期事项及来源业务 ID；不可见部门事项不返回。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O01-02",
+      "title": "筛选并处理优先待办",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O01-01"
+      ],
+      "document": "office/O01.md",
+      "deliverables": [
+        "实现 筛选并处理优先待办 的页面交互与 service 用例。",
+        "提供 office.todo.complete 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "处理后状态与来源业务一致；重复处理不重复记账，过期版本被拒绝。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O01-03",
+      "title": "汇总个人待办日报",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O01-02"
+      ],
+      "document": "office/O01.md",
+      "deliverables": [
+        "实现 汇总个人待办日报 的页面交互与 service 用例。",
+        "提供 office.todo.summarize 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "按日期列出已办、待办与逾期数，统计可由明细复算。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O02-01",
+      "title": "查找跨部门联系人",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07"
+      ],
+      "document": "office/O02.md",
+      "deliverables": [
+        "实现 查找跨部门联系人 的页面交互与 service 用例。",
+        "提供 office.directory.query 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "按部门/姓名返回合法员工 ID；不存在的查询得到空结果。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O02-02",
+      "title": "选择项目协作人员",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O02-01"
+      ],
+      "document": "office/O02.md",
+      "deliverables": [
+        "实现 选择项目协作人员 的页面交互与 service 用例。",
+        "提供 office.team.replace 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "替换成员后人工与 AWCP 状态一致；离职人员或非法 ID 被拒绝。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O02-03",
+      "title": "维护通讯分组",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O02-02"
+      ],
+      "document": "office/O02.md",
+      "deliverables": [
+        "实现 维护通讯分组 的页面交互与 service 用例。",
+        "提供 office.group.save 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "增删分组成员可读回；重复成员去重或明确拒绝。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O03-01",
+      "title": "起草并模拟发布通知",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07"
+      ],
+      "document": "office/O03.md",
+      "deliverables": [
+        "实现 起草并模拟发布通知 的页面交互与 service 用例。",
+        "提供 office.notice.draft / publish 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "草稿到发布有明确状态，发布产生模拟记录；必填字段错误不发布。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O03-02",
+      "title": "设置通知接收部门",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O03-01"
+      ],
+      "document": "office/O03.md",
+      "deliverables": [
+        "实现 设置通知接收部门 的页面交互与 service 用例。",
+        "提供 office.notice.recipients.replace 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "只能选择有效部门；记录完整的接收范围及版本。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O03-03",
+      "title": "查询未读并提醒",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O03-02"
+      ],
+      "document": "office/O03.md",
+      "deliverables": [
+        "实现 查询未读并提醒 的页面交互与 service 用例。",
+        "提供 office.notice.remind 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "未读名单与回执匹配，提醒进入模拟消息记录；不触发真实消息服务。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O04-01",
+      "title": "检索并归档模拟邮件",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07"
+      ],
+      "document": "office/O04.md",
+      "deliverables": [
+        "实现 检索并归档模拟邮件 的页面交互与 service 用例。",
+        "提供 office.mail.query / archive 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "筛选命中与附件可读取，归档后在正确分类可查。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O04-02",
+      "title": "起草回复并模拟发送",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O04-01"
+      ],
+      "document": "office/O04.md",
+      "deliverables": [
+        "实现 起草回复并模拟发送 的页面交互与 service 用例。",
+        "提供 office.mail.reply-draft / send 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "收件人、正文、附件组成可读回，模拟发送有唯一记录；非法附件拒绝。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O04-03",
+      "title": "创建项目讨论与待办",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O04-02"
+      ],
+      "document": "office/O04.md",
+      "deliverables": [
+        "实现 创建项目讨论与待办 的页面交互与 service 用例。",
+        "提供 office.discussion.create / task.create 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "讨论与项目关联，行动项进入待办且保留来源；空任务拒绝。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O05-01",
+      "title": "查询空闲并预约会议",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07"
+      ],
+      "document": "office/O05.md",
+      "deliverables": [
+        "实现 查询空闲并预约会议 的页面交互与 service 用例。",
+        "提供 office.meeting.availability / reserve 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "多人与资源时段一致；冲突预约不落库并返回冲突对象。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O05-02",
+      "title": "会议改期与冲突处理",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O05-01"
+      ],
+      "document": "office/O05.md",
+      "deliverables": [
+        "实现 会议改期与冲突处理 的页面交互与 service 用例。",
+        "提供 office.meeting.reschedule 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "变更保留版本与通知记录，旧时间释放；冲突时维持原预约。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O05-03",
+      "title": "登记纪要与行动项",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O05-02"
+      ],
+      "document": "office/O05.md",
+      "deliverables": [
+        "实现 登记纪要与行动项 的页面交互与 service 用例。",
+        "提供 office.meeting.minutes.save 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "结构化纪要关联人员和会议，行动项可在任务中心查到；模板内容标记清楚。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O06-01",
+      "title": "检索制度并读取内容",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07"
+      ],
+      "document": "office/O06.md",
+      "deliverables": [
+        "实现 检索制度并读取内容 的页面交互与 service 用例。",
+        "提供 office.document.query / read 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "检索有文件 ID、版本和来源，空结果不编造内容。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O06-02",
+      "title": "编辑结构化文档草稿",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O06-01"
+      ],
+      "document": "office/O06.md",
+      "deliverables": [
+        "实现 编辑结构化文档草稿 的页面交互与 service 用例。",
+        "提供 office.document.draft.patch 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "按文档块编辑并生成版本；错误块 ID 或版本冲突不覆盖旧内容。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O06-03",
+      "title": "审阅修订并归档",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O06-02"
+      ],
+      "document": "office/O06.md",
+      "deliverables": [
+        "实现 审阅修订并归档 的页面交互与 service 用例。",
+        "提供 office.document.revision.approve 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "审批绑定具体版本，归档可追踪；未审阅版本不能继承旧批准。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O07-01",
+      "title": "多条件筛选排序分页",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07"
+      ],
+      "document": "office/O07.md",
+      "deliverables": [
+        "实现 多条件筛选排序分页 的页面交互与 service 用例。",
+        "提供 office.sheet.query 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "筛选、排序和分页结果一致；总数与当前页语义明确。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O07-02",
+      "title": "批量编辑与字段校验",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O07-01"
+      ],
+      "document": "office/O07.md",
+      "deliverables": [
+        "实现 批量编辑与字段校验 的页面交互与 service 用例。",
+        "提供 office.sheet.rows.patch 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "逐行字段错误可定位，约定的原子性可验证；不默默部分写入。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O07-03",
+      "title": "导入校验与导出",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O07-02"
+      ],
+      "document": "office/O07.md",
+      "deliverables": [
+        "实现 导入校验与导出 的页面交互与 service 用例。",
+        "提供 office.sheet.import.check / export.start 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "导入先展示错误行；导出返回 assetId 或 jobId，文件数据与筛选一致。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O08-01",
+      "title": "发起并提交审批",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07"
+      ],
+      "document": "office/O08.md",
+      "deliverables": [
+        "实现 发起并提交审批 的页面交互与 service 用例。",
+        "提供 office.approval.submit 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "保存申请与首个审批任务，重复提交幂等；缺失资料不进入审批。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O08-02",
+      "title": "通过或退回补正",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O08-01"
+      ],
+      "document": "office/O08.md",
+      "deliverables": [
+        "实现 通过或退回补正 的页面交互与 service 用例。",
+        "提供 office.approval.approve / return 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "合法审批人可操作并留下意见；越权或不合法迁移被拒绝。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O08-03",
+      "title": "撤回并重新提交",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O08-02"
+      ],
+      "document": "office/O08.md",
+      "deliverables": [
+        "实现 撤回并重新提交 的页面交互与 service 用例。",
+        "提供 office.approval.withdraw 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "保留历史审批，重提生成新业务版本；已终结的流程按规则拒绝撤回。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O09-01",
+      "title": "填写出差申请",
+      "category": "office",
+      "milestone": "M1",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07"
+      ],
+      "document": "office/O09.md",
+      "deliverables": [
+        "实现 填写出差申请 的页面交互与 service 用例。",
+        "提供 office.travel.submit 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "行程、时间与人员合法并生成申请；结束早于开始时不写入。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O09-02",
+      "title": "校验票据和费用明细",
+      "category": "office",
+      "milestone": "M1",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O09-01"
+      ],
+      "document": "office/O09.md",
+      "deliverables": [
+        "实现 校验票据和费用明细 的页面交互与 service 用例。",
+        "提供 office.expense.check 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "金额以分/十进制字符串明确表达；重复票据和明细总额不符返回具体字段。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O09-03",
+      "title": "报销提交、审批与进度",
+      "category": "office",
+      "milestone": "M1",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O09-02"
+      ],
+      "document": "office/O09.md",
+      "deliverables": [
+        "实现 报销提交、审批与进度 的页面交互与 service 用例。",
+        "提供 office.expense.submit / read 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "作为首个办公闭环，覆盖提交、主管审批、进度查询及退回补正；结果落到记录。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O10-01",
+      "title": "请休假与补卡申请",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07"
+      ],
+      "document": "office/O10.md",
+      "deliverables": [
+        "实现 请休假与补卡申请 的页面交互与 service 用例。",
+        "提供 office.leave.submit / attendance.correct 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "关联员工与期间，时间或余额演示规则不满足时返回原因。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O10-02",
+      "title": "入转调离资料办理",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O10-01"
+      ],
+      "document": "office/O10.md",
+      "deliverables": [
+        "实现 入转调离资料办理 的页面交互与 service 用例。",
+        "提供 office.personnel.process 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "按办理类型校验资料，归档变更历史；缺材料不能办结。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O10-03",
+      "title": "培训报名与完成记录",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O10-02"
+      ],
+      "document": "office/O10.md",
+      "deliverables": [
+        "实现 培训报名与完成记录 的页面交互与 service 用例。",
+        "提供 office.training.enroll / complete 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "名额、报名与完成状态可查；重复报名不重复占位。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O11-01",
+      "title": "创建请购并比价",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07"
+      ],
+      "document": "office/O11.md",
+      "deliverables": [
+        "实现 创建请购并比价 的页面交互与 service 用例。",
+        "提供 office.procurement.create / compare 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "比价依据和总额可复算；非法数量与报价被拒绝。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O11-02",
+      "title": "供应商准入审核",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O11-01"
+      ],
+      "document": "office/O11.md",
+      "deliverables": [
+        "实现 供应商准入审核 的页面交互与 service 用例。",
+        "提供 office.supplier.review 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "审核依赖资料和角色；过期或缺失证明阻止通过。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O11-03",
+      "title": "采购到货验收",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O11-02"
+      ],
+      "document": "office/O11.md",
+      "deliverables": [
+        "实现 采购到货验收 的页面交互与 service 用例。",
+        "提供 office.receipt.accept 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "收货关联采购单，验收产生资产或库存记录；超量验收被拒绝。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O12-01",
+      "title": "登记合同及要素校验",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07"
+      ],
+      "document": "office/O12.md",
+      "deliverables": [
+        "实现 登记合同及要素校验 的页面交互与 service 用例。",
+        "提供 office.contract.register 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "主体、日期、金额与附件关联完整；起止时间不合法返回字段错误。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O12-02",
+      "title": "发起用印审批",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O12-01"
+      ],
+      "document": "office/O12.md",
+      "deliverables": [
+        "实现 发起用印审批 的页面交互与 service 用例。",
+        "提供 office.seal.submit 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "关联合同版本与用印事项；未批准或过期材料不能直接完成用印。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O12-03",
+      "title": "到期查询与续签",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O12-02"
+      ],
+      "document": "office/O12.md",
+      "deliverables": [
+        "实现 到期查询与续签 的页面交互与 service 用例。",
+        "提供 office.renewal.create 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "固定时钟命中到期合同，续签关联原合同并保留版本。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O13-01",
+      "title": "设备领用与归还",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07"
+      ],
+      "document": "office/O13.md",
+      "deliverables": [
+        "实现 设备领用与归还 的页面交互与 service 用例。",
+        "提供 office.asset.assign / return 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "资产与持有人状态同步；已占用设备拒绝重复领用。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O13-02",
+      "title": "会议室或车辆预约",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O13-01"
+      ],
+      "document": "office/O13.md",
+      "deliverables": [
+        "实现 会议室或车辆预约 的页面交互与 service 用例。",
+        "提供 office.resource.reserve 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "按资源类型校验时段与人员；并发占用时只能一个预约成功。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O13-03",
+      "title": "维修工单处理",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O13-02"
+      ],
+      "document": "office/O13.md",
+      "deliverables": [
+        "实现 维修工单处理 的页面交互与 service 用例。",
+        "提供 office.repair.resolve 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "维修记录关联资产，处理后可验收；未登记处理意见不能关闭。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O14-01",
+      "title": "创建项目并拆解任务",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07"
+      ],
+      "document": "office/O14.md",
+      "deliverables": [
+        "实现 创建项目并拆解任务 的页面交互与 service 用例。",
+        "提供 office.project.create / task.create 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "任务关联项目、负责人和期限，依赖 ID 均存在。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O14-02",
+      "title": "维护依赖与里程碑",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O14-01"
+      ],
+      "document": "office/O14.md",
+      "deliverables": [
+        "实现 维护依赖与里程碑 的页面交互与 service 用例。",
+        "提供 office.task.update 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "禁止循环任务依赖，更新不覆盖他人版本；里程碑状态可复算。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O14-03",
+      "title": "生成周报与逾期清单",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O14-02"
+      ],
+      "document": "office/O14.md",
+      "deliverables": [
+        "实现 生成周报与逾期清单 的页面交互与 service 用例。",
+        "提供 office.weekly-report.generate 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "周报按当前事实生成，未完成和逾期项可追溯到任务。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O15-01",
+      "title": "提交系统权限申请",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07"
+      ],
+      "document": "office/O15.md",
+      "deliverables": [
+        "实现 提交系统权限申请 的页面交互与 service 用例。",
+        "提供 office.access.request 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "可查系统与权限 ID，按角色与资料规则进入审批；不直接授予生产权限。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O15-02",
+      "title": "分派并处理 IT 工单",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O15-01"
+      ],
+      "document": "office/O15.md",
+      "deliverables": [
+        "实现 分派并处理 IT 工单 的页面交互与 service 用例。",
+        "提供 office.ticket.assign / resolve 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "分派人员有效，处理历史完整；非法状态迁移拒绝。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O15-03",
+      "title": "验收并关闭工单",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O15-02"
+      ],
+      "document": "office/O15.md",
+      "deliverables": [
+        "实现 验收并关闭工单 的页面交互与 service 用例。",
+        "提供 office.ticket.close 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "必须满足验收前提，由允许角色操作；重复关闭返回既有结果或明确错误。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O16-01",
+      "title": "按部门与期间生成报表",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07"
+      ],
+      "document": "office/O16.md",
+      "deliverables": [
+        "实现 按部门与期间生成报表 的页面交互与 service 用例。",
+        "提供 office.report.generate 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "报表条件、单位和汇总值明确，异步返回已受理与完成阶段。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O16-02",
+      "title": "钻取异常明细",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O16-01"
+      ],
+      "document": "office/O16.md",
+      "deliverables": [
+        "实现 钻取异常明细 的页面交互与 service 用例。",
+        "提供 office.report.details.query 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "明细与汇总同一数据口径，合法分页并可追溯业务对象。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "O16-03",
+      "title": "归档与历史查询",
+      "category": "office",
+      "milestone": "M3",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B05",
+        "B06",
+        "B07",
+        "O16-02"
+      ],
+      "document": "office/O16.md",
+      "deliverables": [
+        "实现 归档与历史查询 的页面交互与 service 用例。",
+        "提供 office.archive.search / save 对应的合同、合法样例与 Hook。",
+        "提供固定种子、人工步骤、自然语言任务及自动回放断言。"
+      ],
+      "acceptance": [
+        "按档案 ID 找回版本与操作记录；错误版本或越权读取被拒绝。",
+        "人工操作与 AWCP 调用共享业务入口，调用后界面及实际记录一致。",
+        "至少一个失败分支有断言；通过真实两层 manual 发现后调用，不依赖 DOM 兜底。"
+      ]
+    },
+    {
+      "id": "S01",
+      "title": "客户资料审核与适当性匹配",
+      "category": "securities",
+      "milestone": "M2",
+      "status": "done",
+      "dependsOn": [
+        "B06",
+        "B07",
+        "O09-03"
+      ],
+      "document": "securities/S01.md",
+      "deliverables": [
+        "客户经理、审核人员；客户档案、问卷、产品信息、匹配与补正记录。",
+        "查询客户 → 补资料 → 风险评估 → 产品匹配 → 提交复核 → 归档。",
+        "拟定 Action：securities.client.read / patch；securities.suitability.evaluate / match；securities.review.submit。",
+        "正常、拦截、退回/恢复三类固定数据及可回放任务；记录 businessVersion 与审计。"
+      ],
+      "acceptance": [
+        "资料完整时生成评估与复核记录。",
+        "缺资料、问卷过期、不满足演示匹配规则时返回原因，不能直接完成复核。",
+        "退回补正后以新业务版本提交，重复提交不重复生成记录。",
+        "业务规则使用带版本的演示配置，不以简化逻辑宣称完整监管合规。"
+      ]
+    },
+    {
+      "id": "S02",
+      "title": "研报编制、审阅与发布",
+      "category": "securities",
+      "milestone": "M2",
+      "status": "done",
+      "dependsOn": [
+        "B06",
+        "B07",
+        "O09-03"
+      ],
+      "document": "securities/S02.md",
+      "deliverables": [
+        "分析师、质量与合规审核人员、发布人员；课题、引用、文档版本、审阅记录和发布范围。",
+        "建立课题 → 编辑报告 → 引用与披露检查 → 质量审阅 → 合规审阅 → 模拟发布 → 归档。",
+        "拟定 Action：securities.research.create / patch / check / submit-review / review / publish。",
+        "正常、拦截、退回/恢复三类固定数据及可回放任务；记录 businessVersion 与审计。"
+      ],
+      "acceptance": [
+        "具体版本审阅完成后可以发布并生成唯一发布记录。",
+        "缺少引用、披露或审核，以及角色不匹配时被拦截。",
+        "退回修改产生新版本；旧版本审阅结果不能直接批准新版本。",
+        "业务规则使用带版本的演示配置，不以简化逻辑宣称完整监管合规。"
+      ]
+    },
+    {
+      "id": "S03",
+      "title": "投行立项与尽调协作",
+      "category": "securities",
+      "milestone": "M2",
+      "status": "done",
+      "dependsOn": [
+        "B06",
+        "B07",
+        "O09-03"
+      ],
+      "document": "securities/S03.md",
+      "deliverables": [
+        "项目经理、项目成员、质控与内核人员；发行人、项目、底稿、问题单和审议记录。",
+        "创建项目 → 立项 → 尽调分工 → 提交底稿 → 问题整改 → 质控 → 内核审议 → 归档。",
+        "拟定 Action：securities.ib-project.create / submit；securities.diligence.assign / attach；securities.finding.resolve；securities.quality.submit。",
+        "正常、拦截、退回/恢复三类固定数据及可回放任务；记录 businessVersion 与审计。"
+      ],
+      "acceptance": [
+        "完整底稿且问题整改完成时可以流转至审议状态。",
+        "缺底稿或阻断问题未解决时返回清单并阻止流转。",
+        "退回补正保留底稿版本和问题历史，能重新提交。",
+        "业务规则使用带版本的演示配置，不以简化逻辑宣称完整监管合规。"
+      ]
+    },
+    {
+      "id": "S04",
+      "title": "风险预警调查与处置",
+      "category": "securities",
+      "milestone": "M4",
+      "status": "done",
+      "dependsOn": [
+        "B06",
+        "B07",
+        "S01",
+        "S03"
+      ],
+      "document": "securities/S04.md",
+      "deliverables": [
+        "监控、调查与复核人员；模拟指标、规则、告警、证据、处置与复核记录。",
+        "筛选预警 → 读取证据 → 分派调查 → 登记结论 → 处置意见 → 复核 → 关闭或升级。",
+        "拟定 Action：securities.alert.query / read / assign / review / close；securities.investigation.record。",
+        "正常、拦截、退回/恢复三类固定数据及可回放任务；记录 businessVersion 与审计。"
+      ],
+      "acceptance": [
+        "正常调查、复核与关闭形成完整关联记录。",
+        "证据不全不能关闭；复核驳回后可补充调查。",
+        "并发处理同一事件时版本冲突明确，演示阈值不表述为真实监管阈值。",
+        "业务规则使用带版本的演示配置，不以简化逻辑宣称完整监管合规。"
+      ]
+    },
+    {
+      "id": "S05",
+      "title": "机构客户服务与路演协同",
+      "category": "securities",
+      "milestone": "M4",
+      "status": "done",
+      "dependsOn": [
+        "B07",
+        "O02-02",
+        "O04-02",
+        "O05-01",
+        "O06-02",
+        "O14-01"
+      ],
+      "document": "securities/S05.md",
+      "deliverables": [
+        "机构销售、研究服务与会议组织者；机构档案、服务范围、资料包、路演与回访。",
+        "读取需求 → 核对服务范围 → 安排路演 → 选择资料 → 模拟邀请 → 纪要 → 回访 → 服务汇总。",
+        "拟定 Action：securities.institution.query；securities.service.entitlement-check / followup；securities.roadshow.reserve；securities.material-package.create。",
+        "正常、拦截、退回/恢复三类固定数据及可回放任务；记录 businessVersion 与审计。"
+      ],
+      "acceptance": [
+        "完整流程产生会议、资料、邀请与回访记录，关联对象可跨场景追踪。",
+        "时间冲突返回可用替代方案。",
+        "不在服务范围内的资料不能进入发送包；不实际发送外部邀请。",
+        "业务规则使用带版本的演示配置，不以简化逻辑宣称完整监管合规。"
+      ]
+    },
+    {
+      "id": "P01",
+      "title": "两层发现与标准调用",
+      "category": "protocol",
+      "milestone": "M4",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B04",
+        "B05",
+        "B07"
+      ],
+      "document": "protocol/P01.md",
+      "deliverables": [
+        "可复现该行为的隔离实验场景、输入样例与预期错误。",
+        "对应自动测试及自然语言操作说明。"
+      ],
+      "acceptance": [
+        "目录只含页面与方法索引；章节返回 inputSchema/examples，携带当前 revision 调用成功。",
+        "始终使用真实 Core，不自行模拟协议返回替代待测行为。"
+      ]
+    },
+    {
+      "id": "P02",
+      "title": "Schema 与字段错误",
+      "category": "protocol",
+      "milestone": "M4",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B04",
+        "B05",
+        "B07"
+      ],
+      "document": "protocol/P02.md",
+      "deliverables": [
+        "可复现该行为的隔离实验场景、输入样例与预期错误。",
+        "对应自动测试及自然语言操作说明。"
+      ],
+      "acceptance": [
+        "覆盖缺字段、错误类型、额外字段、嵌套数组；executionStarted=false 且业务状态不变。",
+        "始终使用真实 Core，不自行模拟协议返回替代待测行为。"
+      ]
+    },
+    {
+      "id": "P03",
+      "title": "只读动态校验",
+      "category": "protocol",
+      "milestone": "M4",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B04",
+        "B05",
+        "B07"
+      ],
+      "document": "protocol/P03.md",
+      "deliverables": [
+        "可复现该行为的隔离实验场景、输入样例与预期错误。",
+        "对应自动测试及自然语言操作说明。"
+      ],
+      "acceptance": [
+        "失效 ID、日期冲突和演示额度规则返回准确 path/messages；validate 不写状态。",
+        "始终使用真实 Core，不自行模拟协议返回替代待测行为。"
+      ]
+    },
+    {
+      "id": "P04",
+      "title": "revision 与合同更新",
+      "category": "protocol",
+      "milestone": "M4",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B04",
+        "B05",
+        "B07"
+      ],
+      "document": "protocol/P04.md",
+      "deliverables": [
+        "可复现该行为的隔离实验场景、输入样例与预期错误。",
+        "对应自动测试及自然语言操作说明。"
+      ],
+      "acceptance": [
+        "合同改变导致旧 revision 失败；普通选择、筛选与刷新不改变能力版本。",
+        "始终使用真实 Core，不自行模拟协议返回替代待测行为。"
+      ]
+    },
+    {
+      "id": "P05",
+      "title": "生命周期与多实例",
+      "category": "protocol",
+      "milestone": "M4",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B04",
+        "B05",
+        "B07"
+      ],
+      "document": "protocol/P05.md",
+      "deliverables": [
+        "可复现该行为的隔离实验场景、输入样例与预期错误。",
+        "对应自动测试及自然语言操作说明。"
+      ],
+      "acceptance": [
+        "StrictMode 不重复注册，停用/卸载清理，跨页取消，重复实例 ID 原子失败。",
+        "始终使用真实 Core，不自行模拟协议返回替代待测行为。"
+      ]
+    },
+    {
+      "id": "P06",
+      "title": "异步取消与迟到结果",
+      "category": "protocol",
+      "milestone": "M4",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B04",
+        "B05",
+        "B07"
+      ],
+      "document": "protocol/P06.md",
+      "deliverables": [
+        "可复现该行为的隔离实验场景、输入样例与预期错误。",
+        "对应自动测试及自然语言操作说明。"
+      ],
+      "acceptance": [
+        "覆盖执行前/中取消和迟到结果；不把取消当成业务回滚，结果未知先查状态。",
+        "始终使用真实 Core，不自行模拟协议返回替代待测行为。"
+      ]
+    },
+    {
+      "id": "P07",
+      "title": "重复请求与业务幂等",
+      "category": "protocol",
+      "milestone": "M4",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B04",
+        "B05",
+        "B07"
+      ],
+      "document": "protocol/P07.md",
+      "deliverables": [
+        "可复现该行为的隔离实验场景、输入样例与预期错误。",
+        "对应自动测试及自然语言操作说明。"
+      ],
+      "acceptance": [
+        "在途重复 requestId 报错；结束后复用 ID 不等于防重；业务幂等键独立生效。",
+        "始终使用真实 Core，不自行模拟协议返回替代待测行为。"
+      ]
+    },
+    {
+      "id": "P08",
+      "title": "受控错误与异常归一",
+      "category": "protocol",
+      "milestone": "M4",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B04",
+        "B05",
+        "B07"
+      ],
+      "document": "protocol/P08.md",
+      "deliverables": [
+        "可复现该行为的隔离实验场景、输入样例与预期错误。",
+        "对应自动测试及自然语言操作说明。"
+      ],
+      "acceptance": [
+        "action.* 保留受控信息，普通异常只返回 execution_failed，不泄漏堆栈。",
+        "始终使用真实 Core，不自行模拟协议返回替代待测行为。"
+      ]
+    },
+    {
+      "id": "P09",
+      "title": "动态合同与最新状态",
+      "category": "protocol",
+      "milestone": "M4",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B04",
+        "B05",
+        "B07"
+      ],
+      "document": "protocol/P09.md",
+      "deliverables": [
+        "可复现该行为的隔离实验场景、输入样例与预期错误。",
+        "对应自动测试及自然语言操作说明。"
+      ],
+      "acceptance": [
+        "字段配置改变更新 Schema/examples，普通渲染保持最新闭包；已接受调用行为符合 Core 合同。",
+        "始终使用真实 Core，不自行模拟协议返回替代待测行为。"
+      ]
+    },
+    {
+      "id": "P10",
+      "title": "容量与隔离",
+      "category": "protocol",
+      "milestone": "M4",
+      "status": "done",
+      "dependsOn": [
+        "B02",
+        "B04",
+        "B05",
+        "B07"
+      ],
+      "document": "protocol/P10.md",
+      "deliverables": [
+        "可复现该行为的隔离实验场景、输入样例与预期错误。",
+        "对应自动测试及自然语言操作说明。"
+      ],
+      "acceptance": [
+        "验证 Action 数、目录/章节体积限制和页面隔离；超限整体拒绝，实验错误不导致全站崩溃。",
+        "始终使用真实 Core，不自行模拟协议返回替代待测行为。"
+      ]
+    },
+    {
+      "id": "Q01",
+      "title": "合同与场景覆盖门禁",
+      "category": "quality",
+      "milestone": "M5",
+      "status": "done",
+      "dependsOn": [
+        "O01-01",
+        "O01-02",
+        "O01-03",
+        "O02-01",
+        "O02-02",
+        "O02-03",
+        "O03-01",
+        "O03-02",
+        "O03-03",
+        "O04-01",
+        "O04-02",
+        "O04-03",
+        "O05-01",
+        "O05-02",
+        "O05-03",
+        "O06-01",
+        "O06-02",
+        "O06-03",
+        "O07-01",
+        "O07-02",
+        "O07-03",
+        "O08-01",
+        "O08-02",
+        "O08-03",
+        "O09-01",
+        "O09-02",
+        "O09-03",
+        "O10-01",
+        "O10-02",
+        "O10-03",
+        "O11-01",
+        "O11-02",
+        "O11-03",
+        "O12-01",
+        "O12-02",
+        "O12-03",
+        "O13-01",
+        "O13-02",
+        "O13-03",
+        "O14-01",
+        "O14-02",
+        "O14-03",
+        "O15-01",
+        "O15-02",
+        "O15-03",
+        "O16-01",
+        "O16-02",
+        "O16-03",
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P10"
+      ],
+      "document": "quality/Q01.md",
+      "deliverables": [
+        "合同测试、流程回放、16 类/48 任务/5 流程/10 实验覆盖矩阵。",
+        "更新 check:plans 并建立运行时 check:scenarios。"
+      ],
+      "acceptance": [
+        "全部已注册 Action 可读取章节，合法 examples 有可执行前置上下文。",
+        "成功不只检查 ok:true，还核对实际业务状态、记录和文件结果。",
+        "质量报告记录已执行与未执行检查，无用例不能伪报通过。"
+      ]
+    },
+    {
+      "id": "Q02",
+      "title": "浏览器与外部宿主验收",
+      "category": "quality",
+      "milestone": "M5",
+      "status": "in_progress",
+      "dependsOn": [
+        "Q01"
+      ],
+      "document": "quality/Q02.md",
+      "deliverables": [
+        "浏览器 AWCP E2E、跨页驱动和外部宿主接入说明。",
+        "独立的模型任务评测报告。"
+      ],
+      "acceptance": [
+        "从浏览器实际 manual/section/invoke 完成关键闭环，业务执行不靠 DOM 点击兜底。",
+        "跨页后重新发现；失败恢复不盲目重复提交。",
+        "模型评测注明宿主/模型/种子/次数，不将确定性测试替代模型结果。"
+      ]
+    },
+    {
+      "id": "Q03",
+      "title": "产物模式、部署与交付",
+      "category": "quality",
+      "milestone": "M5",
+      "status": "in_progress",
+      "dependsOn": [
+        "Q02"
+      ],
+      "document": "quality/Q03.md",
+      "deliverables": [
+        "核实 AWCP 发布包内容，新增无源码别名的构建/类型检查模式。",
+        "独立安装锁定方案、静态部署说明、最终验收与清理报告。"
+      ],
+      "acceptance": [
+        "产物模式不依赖 ../cdk；实际发布包包含现行合同。",
+        "部署不依赖原 admin 登录、生产接口或模块联邦宿主。",
+        "依赖安装由用户执行；记录版本、复位方式及遗留事项，清理临时状态。"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+.page {
+  color: var(--color-text-primary);
+  min-width: 0;
+  display: grid;
+  gap: 1.25rem;
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+.page header p {
+  white-space: pre-line;
+}
+.page section {
+  padding: 1rem;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.5rem;
+  background: var(--color-bg-surface);
+}
+.page label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.3rem 0.8rem 0.3rem 0;
+}
+.page input,
+.page select {
+  padding: 0.35rem;
+}
+.page button {
+  display: inline-block;
+  margin: 0.8rem 0.6rem 0 0;
+  padding: 0.45rem 0.8rem;
+  cursor: pointer;
+}
+.page pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: var(--color-bg-surface-elevated);
+  padding: 0.6rem;
+}
+.page a { color: #9dc8ff; }
+.page input, .page select, .page textarea { max-width: 100%; border: 1px solid var(--color-border-default); border-radius: 6px; background: var(--color-bg-surface-subtle); color: var(--color-text-primary); }
+.page button { border: 1px solid var(--color-blue-border); border-radius: 6px; background: var(--color-blue-bg); color: var(--color-text-primary); }
+.page button:disabled { opacity: .5; cursor: not-allowed; }

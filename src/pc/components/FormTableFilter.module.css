@@ -1,0 +1,11 @@
+.section {
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid #d6e0e9;
+  border-radius: 0.5rem;
+  background: #fff;
+}
+
+.section h2 {
+  margin-top: 0;
+}

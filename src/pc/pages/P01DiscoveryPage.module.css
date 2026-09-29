@@ -1,0 +1,23 @@
+.page {
+  display: grid;
+  gap: 0.8rem;
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.page p {
+  white-space: pre-line;
+}
+
+.page pre {
+  padding: 0.7rem;
+  overflow-wrap: anywhere;
+  background: #f5f7fb;
+}
+
+.page button {
+  width: max-content;
+  padding: 0.45rem 0.8rem;
+  cursor: pointer;
+}

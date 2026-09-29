@@ -1,0 +1,87 @@
+.panel {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid #d6e0e9;
+  border-radius: 0.5rem;
+  background: #fff;
+}
+
+.panel h2,
+.panel h3,
+.panel p {
+  margin: 0;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: minmax(8rem, 12rem) minmax(0, 1fr);
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.form input,
+.form select {
+  width: 100%;
+  min-width: 0;
+  padding: 0.45rem;
+  border: 1px solid #9fb3c8;
+  border-radius: 0.3rem;
+}
+
+.form fieldset,
+.form p {
+  grid-column: 1 / -1;
+}
+
+.form button {
+  grid-column: 2;
+  justify-self: start;
+  padding: 0.55rem 1rem;
+  border: 0;
+  border-radius: 0.3rem;
+  color: #fff;
+  background: #164e7a;
+  cursor: pointer;
+}
+
+.traveler {
+  display: block;
+  margin: 0.3rem 0;
+}
+
+.traveler input {
+  width: auto;
+  margin-right: 0.4rem;
+}
+
+.list {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.actions button {
+  grid-column: auto;
+}
+
+.progress {
+  border-top: 1px solid #d6e0e9;
+  padding-top: 0.75rem;
+}
+
+@media (max-width: 600px) {
+  .form {
+    grid-template-columns: 1fr;
+  }
+
+  .form button {
+    grid-column: 1;
+  }
+}

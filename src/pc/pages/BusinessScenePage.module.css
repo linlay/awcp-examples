@@ -1,0 +1,23 @@
+.page { display: flex; flex-direction: column; gap: 16px; color: var(--color-text-primary); }
+.page a { color: #9dc8ff; text-decoration: none; }
+.page a:hover { text-decoration: underline; }
+.page > label { display: grid; gap: 6px; max-width: 620px; color: var(--color-text-primary); }
+.page > label input, .page > label select, .page > label textarea { box-sizing: border-box; width: 100%; min-height: 38px; padding: 8px 10px; border: 1px solid var(--color-border-subtle); border-radius: 7px; background: var(--color-bg-surface); color: var(--color-text-primary); font: inherit; }
+.page > fieldset { max-width: 620px; border: 1px solid var(--color-border-subtle); border-radius: 8px; }
+.page > button { align-self: flex-start; padding: 9px 14px; border: 1px solid var(--color-blue-border); border-radius: 7px; background: var(--color-blue-bg); color: var(--color-text-primary); cursor: pointer; }
+.page > button:disabled { opacity: .5; cursor: not-allowed; }
+.page h1 { margin: 0; font-size: 24px; }
+.page h2 { margin: 12px 0 0; font-size: 18px; }
+.page p { margin: 0; color: var(--color-text-secondary); }
+.eyebrow { color: var(--color-gold-primary) !important; font-size: 12px; font-weight: 700; }
+.formLinks { display: flex; flex-wrap: wrap; gap: 10px; }
+.primaryLink { padding: 9px 14px; border: 1px solid var(--color-blue-border); border-radius: 8px; background: var(--color-blue-bg); }
+.list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.list li a { display: flex; justify-content: space-between; gap: 16px; padding: 14px 16px; border: 1px solid var(--color-border-subtle); border-radius: 8px; background: var(--color-bg-surface); }
+.list li span { color: var(--color-text-secondary); }
+.detailHeader { padding-bottom: 12px; border-bottom: 1px solid var(--color-border-subtle); }
+.businessContent { display: grid; gap: 6px; padding: 16px; border: 1px solid var(--color-border-subtle); border-radius: 8px; background: var(--color-bg-surface); }
+.businessContent h2 { margin: 4px 0; }
+.businessContent ol { margin: 0; padding-left: 22px; }
+.resetBox { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 8px; color: var(--color-text-secondary); font-size: 13px; }
+.resetBox button { cursor: pointer; }

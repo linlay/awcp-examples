@@ -1,0 +1,40 @@
+.page {
+  display: grid;
+  gap: 1rem;
+}
+
+.page h1,
+.page p {
+  margin: 0;
+}
+
+.eyebrow {
+  color: #346a92;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(320px, 1fr);
+  align-items: start;
+  gap: 1rem;
+}
+
+.notice {
+  padding: 1rem;
+  border: 1px dashed #9fb3c8;
+  border-radius: 0.5rem;
+  background: #fff;
+}
+
+.note {
+  color: #52677a;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
