@@ -1,0 +1,28 @@
+name: awcp-site
+services:
+  app:
+    image: awcp-site:${AWCP_RELEASE:?Set AWCP_RELEASE to the deployed commit}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:11983:2181"
+    environment:
+      AWCP_LISTEN: "0.0.0.0:2181"
+      AWCP_DATABASE: /data/awcp.sqlite
+      AWCP_STATIC_DIR: /app/web
+      AWCP_ALLOWED_ORIGINS: https://awcp-site.zenmind.cc
+      AWCP_SECURE_COOKIE: "true"
+      AWCP_DATA_PROFILE: standard
+    volumes:
+      - ./data:/data
+    read_only: true
+    tmpfs:
+      - /tmp:uid=65532,gid=65532,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
