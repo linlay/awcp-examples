@@ -1,69 +1,75 @@
-# AWCP 证券办公示例项目
+# AWCP 业务协同示例项目
 
-与 `../cdk` 同级的独立 React/TypeScript 演示应用。O01～O16、S01～S05 使用虚构数据展示事项列表、独立发起表单与事项详情；P01～P10 保留协议实验。模型根据用户任务操作页面，不自动执行固定流程。S01 是优先讲解案例。
+使用虚构数据验证 AWCP 浏览器协议的示例应用，包含 O01～O16、S01～S05、P01～P10 共 31 个既有场景。
 
-已配置 React 18、TypeScript strict、Webpack + SWC、CSS Modules 支持、ESLint、Prettier和 Vitest。React 根节点按场景挂载本地 `AwcpProvider`；当前页面可浏览 31 个场景入口。O01～O16、S01～S05 页面注册业务 Action，P01～P10 注册隔离的协议实验 Action。
+**当前处于全栈改造第一阶段：已安装依赖、通过基础验证，并在本机启动预览。整体业务迁移及远程部署尚未完成。** Go/SQLite 已实现会话、重置与历史分析接口；既有 O/S 业务规则尚在浏览器，不能把本阶段理解为 31 个场景已经迁移到后端。执行状态见 [全栈改造计划](plans/fullstack/README.md)，已执行检查见 [实施记录](docs/fullstack-progress.md)。
 
-场景路由和当前页 Action 作用域见 [说明](docs/scenario-routing.md)。各业务规则与数据仍沿用原有 service 和虚构种子；协议实验 P01～P10 保留。既有分场景设计资料位于 `docs/`，其中历史验收记录按当时版本理解。
+## 技术栈与目录
 
-## 本地 AWCP 与 UI 入口
+前端保持 React 18、TypeScript strict、Ant Design、Webpack + SWC、CSS Modules；后端采用 Go 1.26、标准库 HTTP 和 SQLite。前端位于 `frontend/`，后端位于 `backend/`，AWCP 与 UI 源码继续位于 `package/awcp`、`package/ui`；类型化 HTTP 客户端位于 `package/api`。
 
-协议运行时位于 `package/awcp/`，入口别名为 `@app/awcp`；项目实际使用的 ComboCondition、DataTable、DataTree 适配位于 `package/ui/`，入口别名为 `@app/ui`。来源、范围和后续验证见 [抽离记录](docs/awcp-local-source.md)。
+工作区统一使用根 `package.json` 精确管理前端及共享源码依赖，`frontend/package.json` 管理前端命令。Go 依赖由 `backend/go.mod` 管理。架构与边界见 [CLAUDE.md](CLAUDE.md)。
 
-## 安装与运行
+## 准备依赖
 
-依赖由用户准备，本项目没有自动安装脚本或安装时执行的代码生成流程。项目已加入父级 `pnpm-workspace.yaml`，父级锁文件已有 importer；本地依赖抽离后的重新安装与独立构建待用户安装后验证。
-
-安装前需要注意：本次开始前，父级 `check:workspace` 就有 **34 条既有版本不匹配**，涉及 admin-react 和部分 CDK 包。父级 `postinstall` 会运行此检查，部分旧 `workspace:` 引用也可能在解析时失败。详情见 [当前交付与验证记录](docs/scaffold-status.md)。这些既有依赖未在本次修改；应按工作区维护流程处理，不能将其当作新项目的安装成功结果。
-
-在父级工作区复核时运行：
+在仓库根目录由维护者执行：
 
 ```bash
-pnpm --filter awcp-examples run check:protocol
-pnpm --filter awcp-examples run check:plans
-pnpm --filter awcp-examples run quality
-pnpm --filter awcp-examples run dev
+pnpm install
+cd backend
+GOTOOLCHAIN=local go mod tidy
+cd ..
 ```
 
-开发地址：`http://127.0.0.1:2180`。该地址只绑定本机；首页显示场景目录，`/scenes/O01` 显示工作台待办，`/scenes/O02` 显示人员与组织，`/scenes/O03` 显示公告与通知，`/scenes/O04` 显示邮件与内部消息，`/scenes/O05` 显示日程与会议，`/scenes/O06` 显示文档与知识库，`/scenes/O07` 显示表格与数据处理，`/scenes/O08` 显示通用审批，`/scenes/O09` 显示差旅报销与 B06 草稿演示，`/scenes/O10` 显示人事与考勤，`/scenes/O11` 显示采购与供应商，`/scenes/O12` 显示合同与用印，`/scenes/O13` 显示资产与行政，`/scenes/O14` 显示项目与任务协作，`/scenes/O15` 显示 IT 服务与权限，`/scenes/O16` 显示统计报表与档案，`/scenes/S01` 显示客户资料与适当性流程，`/scenes/S02` 显示研报编制、审阅与模拟发布，`/scenes/S03` 显示投行立项与尽调协作，`/scenes/S04` 显示风险预警调查与处置，`/scenes/S05` 显示机构客户服务与路演协同，`/scenes/P01` 显示两层发现实验，`/scenes/P02` 显示 Schema 错误实验，`/scenes/P03` 显示动态校验实验，`/scenes/P04` 显示 revision 实验，`/scenes/P05` 显示生命周期实验，`/scenes/P06` 显示异步取消实验，`/scenes/P07` 显示业务幂等实验，`/scenes/P08` 显示错误归一实验，`/scenes/P09` 显示动态合同实验，`/scenes/P10` 显示容量隔离实验。部署输出目录为 `dist/`；部署环境需要把深层 URL 回退到 `index.html`。
+需要 Node.js 22+、pnpm 10.32.1 和 Go 1.26.x。首次安装应生成根 `pnpm-lock.yaml` 和 `backend/go.sum`，保留并审查这些文件。后续运行命令禁用 Go 自动工具链下载与依赖下载，工作区关闭 pnpm 启动时自动安装。SWC/esbuild 使用平台可选依赖提供的二进制，不运行安装脚本。
 
-可在开发者工具验证：
+## 本地启动
 
-```javascript
-window.awcp.protocolVersion; // 预期为 1
-window.awcp.manual(); // 首页为置空 sections；O09 基础演示包含组件与草稿 Action
+安装并完成验证后，在仓库根目录运行：
+
+```bash
+pnpm run dev
 ```
 
-演示改造只做相关页面验证、现有 lint、类型检查与构建，不增加模型工程门禁。`format:check` 单独检查格式。
+该命令启动前端开发服务器及 Go API，结束时同时停止两者。开发地址为 `http://127.0.0.1:2180`，前端代理 `/api` 到 Go 服务。首次访问创建独立演示会话；失败时页面显示重试入口，不静默降级为已联网。
 
-## 目录
+- `/`：31 场景目录。
+- `/scenes/O01`：既有工作台。
+- `/scenes/{ID}/objects/{objectId}`：既有事项详情。
+- `/scenes/{ID}/new/{formType}`：既有新建表单。
+- `/analysis`：SQLite 历史样本查询、统计、分组钻取和分页。
+- 头像菜单：恢复当前演示会话初始状态，返回工作台。
 
-```text
-src/
-├── main.tsx                 # React 入口
-├── app/                     # 根组件与按场景作用域的 AWCP Provider
-├── pc/
-│   ├── pages/               # 场景目录、事项列表、独立发起表单与详情
-│   ├── components/          # 布局、筛选表格、草稿编辑
-│   ├── hooks/               # 空目录
-│   ├── routes/              # 原生 History 路由与页面作用域
-│   └── service/             # 草稿、工作流、差旅报销、客户、研报、投行项目、待办、目录、通知、通信、会议、文档、表格与审批服务，尚未接入 HTTP
-└── common/
-    ├── awcp/                # site 与 Action 合同模板
-    ├── types/               # CSS Modules 类型
-    ├── fixtures/            # 虚构数据类型、固定种子与模拟时钟
-    ├── scenarios/           # 31 个场景的 ID、名称与 URL
-    └── store/               # 内存 repository 与受限持久化
-plans/                       # 可执行任务拆分和机器可读清单
-docs/                        # 当前接入与验收记录
-package/                     # 本地 AWCP 协议运行时与三种 UI 适配
-tests/                       # 协议桥接、场景作用域、业务数据与定向页面测试
+分析页明确展示历史样本，不把未迁移场景的新办理记录计入统计。业务操作人仍在各场景选择。
+
+## 配置
+
+变量契约见 [.env.example](.env.example)，默认值以 `backend/internal/config/config.go` 为准。服务直接读取进程环境，不自动加载 `.env`；通过 shell、服务管理器或容器注入。相对路径以启动工作目录为基准，本地编排从 `backend/` 启动。
+
+演示 Cookie 只用于隔离数据，不是正式登录。部署在受控访问环境中，HTTPS 时配置安全 Cookie，并设置精确的允许来源。数据库必须放在持久目录。
+
+## 验证
+
+```bash
+pnpm run check:protocol
+pnpm run check:plans
+pnpm run lint
+pnpm run typecheck
+pnpm run test
+pnpm run test:backend
+pnpm run build
 ```
 
-业务逻辑进入 service，页面只组装视图。首期业务使用内存数据；实际接入 HTTP 时通过有类型的 API/service 层统一处理超时、错误和拦截器，不在组件中直接请求。
+`quality` 串联上述验证。计划文件引用检查通过不代表页面测试通过。本轮前端 68 个测试文件、169 项测试及新增 Go 测试已通过；已通过本地浏览器分析查询与头像重置冒烟验证。完整 31 场景浏览器和外部宿主验收仍待完成。
 
-## 后续任务
+## 构建与部署
 
-按 [计划索引](plans/README.md) 继续收尾 Q02～Q03 质量任务。`plans/backlog.json` 保存任务状态、依赖、产物和验收条件。完整目标保持为 16 类办公场景的 48 个任务、5 条证券业务流程和 10 类协议实验；现有 O01～O16、S01～S05 页面提供业务演示流程，P01～P10 提供协议实验。
+`make build` 构建前端及当前平台 Go 程序。Go 服务提供 SPA 与 API，深层页面刷新由服务端处理，未知 API 和不存在的静态资源不会回退成 HTML。
 
-本次没有执行 Git 初始化、提交或远端配置。父目录的 `.gitignore` 默认忽略子项目，本目录以文件形式保留，后续可按团队流程纳入独立仓库。
+容器只打包预先构建的 Linux 产物，Dockerfile 不安装依赖。详见 [部署说明](docs/fullstack-deployment.md)。当前本地预览地址为 `http://127.0.0.1:2181/analysis`；尚未确定远程服务器和域名，也未进行远程部署。
+
+## 数据与恢复
+
+所有客户、人员、事项和历史数据均为虚构。标准数据集包含 20 个部门、300 名人员、24,000 条历史样本；小型验收集包含 3 个部门、12 名人员、48 条历史样本。重置使用固定种子和独立数据版本，不影响其他访问者。
+
+既有业务暂由会话和数据版本隔离的浏览器存储承接，原迁移前 localStorage 不导入、不覆盖、不删除。SQLite 持久化范围及后续迁移任务以当前全栈计划为准。

@@ -7,3 +7,15 @@ coverage/
 .env.*
 !.env.example
 .DS_Store
+data/
+backend/data/
+build/
+!frontend/build/
+!frontend/build/**
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+!deploy/runtime/data/
+!deploy/runtime/data/.keep
+
+.pnpm-store/

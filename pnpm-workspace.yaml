@@ -1,0 +1,13 @@
+packages:
+  - frontend
+allowBuilds:
+  '@swc/core': set this to true or false
+  esbuild: set this to true or false
+
+# Starting/checking the application must never install dependencies implicitly.
+verifyDepsBeforeRun: false
+
+# Native binaries are supplied by their platform optional packages; no install scripts.
+ignoredBuiltDependencies:
+  - '@swc/core'
+  - esbuild

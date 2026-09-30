@@ -1,16 +1,14 @@
+# Optional local reverse proxy example. Set the real host/TLS before remote deployment.
+# The Go service owns SPA routing and /api. The former static-only deployment is obsolete.
 server {
     listen 80;
     server_name _;
-    root /srv/awcp-examples;
-    index index.html;
-
-    location /assets/ {
-        try_files $uri =404;
-        expires 1y;
-        add_header Cache-Control "public, immutable";
-    }
 
     location / {
-        try_files $uri $uri/ /index.html;
+        proxy_pass http://127.0.0.1:2181;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 }

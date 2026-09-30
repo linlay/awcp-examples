@@ -1,0 +1,9 @@
+**
+!build/
+!build/awcp-server-linux
+!frontend/
+!frontend/dist/
+!frontend/dist/**
+!deploy/
+!deploy/runtime/
+!deploy/runtime/**

@@ -1,0 +1,21 @@
+{
+  "name": "@app/frontend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AWCP 业务协同示例项目",
+  "packageManager": "pnpm@10.32.1",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "dev": "webpack serve --config webpack.config.cjs --mode development",
+    "build": "webpack --config webpack.config.cjs --mode production",
+    "lint": "eslint src ../package tests --ext .ts,.tsx --max-warnings 0",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "test": "vitest run --config vitest.config.ts",
+    "format:check": "prettier . --check",
+    "check:plans": "node ../scripts/checkPlans.mjs",
+    "quality": "pnpm run check:protocol && pnpm run check:plans && pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run build",
+    "check:protocol": "node ../scripts/checkProtocol.mjs"
+  }
+}

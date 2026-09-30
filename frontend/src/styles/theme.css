@@ -1,0 +1,125 @@
+/**
+ * AWCP Securities Enterprise Financial Dark-Blue Design System Tokens
+ */
+
+:root {
+  /* Canvas & Surfaces */
+  --color-bg-canvas: #070d18;
+  --color-bg-sidebar: #0a1526;
+  --color-bg-header: #0a1628;
+  --color-bg-surface: #0f2038;
+  --color-bg-surface-elevated: #152b4c;
+  --color-bg-surface-subtle: #0b1a30;
+  --color-bg-glass: rgba(15, 32, 56, 0.75);
+
+  /* Borders */
+  --color-border-subtle: rgba(99, 179, 237, 0.12);
+  --color-border-default: rgba(99, 179, 237, 0.22);
+  --color-border-bright: rgba(99, 179, 237, 0.45);
+  --color-border-gold: rgba(201, 168, 76, 0.4);
+
+  /* Typography */
+  --color-text-primary: #f0f4f9;
+  --color-text-secondary: #9cb2cb;
+  --color-text-muted: #8395af;
+  --color-text-inverse: #070d18;
+
+  /* Accents & Signals */
+  --color-gold-primary: #c9a84c;
+  --color-gold-hover: #e0be62;
+  --color-gold-bg: rgba(201, 168, 76, 0.15);
+  --color-gold-border: rgba(201, 168, 76, 0.35);
+
+  --color-blue-primary: #2563eb;
+  --color-blue-hover: #3b82f6;
+  --color-blue-bg: rgba(37, 99, 235, 0.15);
+  --color-blue-border: rgba(37, 99, 235, 0.35);
+
+  --color-red-primary: #f43f5e;
+  --color-red-hover: #fb7185;
+  --color-red-bg: rgba(244, 63, 94, 0.15);
+  --color-red-border: rgba(244, 63, 94, 0.35);
+
+  --color-emerald-primary: #10b981;
+  --color-emerald-hover: #34d399;
+  --color-emerald-bg: rgba(16, 185, 129, 0.15);
+  --color-emerald-border: rgba(16, 185, 129, 0.35);
+
+  --color-amber-primary: #f59e0b;
+  --color-amber-bg: rgba(245, 158, 11, 0.15);
+  --color-amber-border: rgba(245, 158, 11, 0.35);
+
+  /* Shadows & Glows */
+  --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(99, 179, 237, 0.12);
+  --shadow-card-hover: 0 8px 30px -4px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(99, 179, 237, 0.3);
+  --shadow-glow-blue: 0 0 20px rgba(37, 99, 235, 0.25);
+  --shadow-glow-gold: 0 0 20px rgba(201, 168, 76, 0.25);
+
+  /* Transitions */
+  --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Global Reset and Body Styling */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg-canvas);
+  color: var(--color-text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Custom Scrollbar for Dark Theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-canvas);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-default);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-bright);
+}
+
+:root[data-theme='light'] {
+  --color-bg-canvas: #f5f7fa;
+  --color-bg-sidebar: #ffffff;
+  --color-bg-header: #ffffff;
+  --color-bg-surface: #ffffff;
+  --color-bg-surface-elevated: #edf2f8;
+  --color-bg-surface-subtle: #f8fafc;
+  --color-bg-glass: rgba(255, 255, 255, .92);
+  --color-border-subtle: #e8ecf1;
+  --color-border-default: #d6dce5;
+  --color-border-bright: #91b4e4;
+  --color-border-gold: #b49445;
+  --color-text-primary: #202b3b;
+  --color-text-secondary: #526174;
+  --color-text-muted: #64748b;
+  --color-text-inverse: #ffffff;
+  --color-gold-primary: #876316;
+  --color-gold-hover: #684b0e;
+  --color-blue-primary: #2563eb;
+  --color-blue-hover: #1d4ed8;
+  --color-red-primary: #be123c;
+  --color-red-hover: #9f1239;
+  --color-emerald-primary: #047857;
+  --color-emerald-hover: #065f46;
+  --color-amber-primary: #92400e;
+  --shadow-card: 0 2px 10px rgba(28, 50, 80, .05), 0 0 0 1px #e8ecf1;
+  --shadow-card-hover: 0 6px 20px rgba(28, 50, 80, .1), 0 0 0 1px #d6dce5;
+  --shadow-glow-blue: none;
+  --shadow-glow-gold: none;
+}

@@ -2,193 +2,409 @@
   "scenarios": [
     {
       "scenarioId": "O01",
-      "taskIds": ["O01-01", "O01-02", "O01-03"],
-      "replayTests": ["tests/o01-awcp-ui.test.tsx"],
-      "stateTests": ["tests/todo-service.test.ts"]
+      "taskIds": [
+        "O01-01",
+        "O01-02",
+        "O01-03"
+      ],
+      "replayTests": [
+        "frontend/tests/o01-awcp-ui.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/todo-service.test.ts"
+      ]
     },
     {
       "scenarioId": "O02",
-      "taskIds": ["O02-01", "O02-02", "O02-03"],
-      "replayTests": ["tests/o02-awcp-ui.test.tsx"],
-      "stateTests": ["tests/directory-service.test.ts"]
+      "taskIds": [
+        "O02-01",
+        "O02-02",
+        "O02-03"
+      ],
+      "replayTests": [
+        "frontend/tests/o02-awcp-ui.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/directory-service.test.ts"
+      ]
     },
     {
       "scenarioId": "O03",
-      "taskIds": ["O03-01", "O03-02", "O03-03"],
-      "replayTests": ["tests/o03-awcp-ui.test.tsx"],
-      "stateTests": ["tests/notice-service.test.ts"]
+      "taskIds": [
+        "O03-01",
+        "O03-02",
+        "O03-03"
+      ],
+      "replayTests": [
+        "frontend/tests/o03-awcp-ui.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/notice-service.test.ts"
+      ]
     },
     {
       "scenarioId": "O04",
-      "taskIds": ["O04-01", "O04-02", "O04-03"],
-      "replayTests": ["tests/o04-awcp-ui.test.tsx"],
-      "stateTests": ["tests/communication-service.test.ts"]
+      "taskIds": [
+        "O04-01",
+        "O04-02",
+        "O04-03"
+      ],
+      "replayTests": [
+        "frontend/tests/o04-awcp-ui.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/communication-service.test.ts"
+      ]
     },
     {
       "scenarioId": "O05",
-      "taskIds": ["O05-01", "O05-02", "O05-03"],
-      "replayTests": ["tests/o05-awcp-ui.test.tsx"],
-      "stateTests": ["tests/meeting-service.test.ts"]
+      "taskIds": [
+        "O05-01",
+        "O05-02",
+        "O05-03"
+      ],
+      "replayTests": [
+        "frontend/tests/o05-awcp-ui.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/meeting-service.test.ts"
+      ]
     },
     {
       "scenarioId": "O06",
-      "taskIds": ["O06-01", "O06-02", "O06-03"],
-      "replayTests": ["tests/o06-awcp-ui.test.tsx"],
-      "stateTests": ["tests/document-service.test.ts"]
+      "taskIds": [
+        "O06-01",
+        "O06-02",
+        "O06-03"
+      ],
+      "replayTests": [
+        "frontend/tests/o06-awcp-ui.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/document-service.test.ts"
+      ]
     },
     {
       "scenarioId": "O07",
-      "taskIds": ["O07-01", "O07-02", "O07-03"],
-      "replayTests": ["tests/o07-awcp-ui.test.tsx"],
-      "stateTests": ["tests/sheet-service.test.ts"]
+      "taskIds": [
+        "O07-01",
+        "O07-02",
+        "O07-03"
+      ],
+      "replayTests": [
+        "frontend/tests/o07-awcp-ui.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/sheet-service.test.ts"
+      ]
     },
     {
       "scenarioId": "O08",
-      "taskIds": ["O08-01", "O08-02", "O08-03"],
-      "replayTests": ["tests/o08-awcp-ui.test.tsx"],
-      "stateTests": ["tests/approval-service.test.ts"]
+      "taskIds": [
+        "O08-01",
+        "O08-02",
+        "O08-03"
+      ],
+      "replayTests": [
+        "frontend/tests/o08-awcp-ui.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/approval-service.test.ts"
+      ]
     },
     {
       "scenarioId": "O09",
-      "taskIds": ["O09-01", "O09-02", "O09-03"],
-      "replayTests": [
-        "tests/travel-awcp-ui.test.tsx",
-        "tests/expense-awcp-ui.test.tsx",
-        "tests/expense-flow-awcp-ui.test.tsx"
+      "taskIds": [
+        "O09-01",
+        "O09-02",
+        "O09-03"
       ],
-      "stateTests": ["tests/expense-flow-service.test.ts"]
+      "replayTests": [
+        "frontend/tests/travel-awcp-ui.test.tsx",
+        "frontend/tests/expense-awcp-ui.test.tsx",
+        "frontend/tests/expense-flow-awcp-ui.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/expense-flow-service.test.ts"
+      ]
     },
     {
       "scenarioId": "O10",
-      "taskIds": ["O10-01", "O10-02", "O10-03"],
-      "replayTests": ["tests/o10-awcp-ui.test.tsx"],
-      "stateTests": ["tests/hr-service.test.ts"]
+      "taskIds": [
+        "O10-01",
+        "O10-02",
+        "O10-03"
+      ],
+      "replayTests": [
+        "frontend/tests/o10-awcp-ui.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/hr-service.test.ts"
+      ]
     },
     {
       "scenarioId": "O11",
-      "taskIds": ["O11-01", "O11-02", "O11-03"],
-      "replayTests": ["tests/o11-awcp-ui.test.tsx"],
-      "stateTests": ["tests/procurement-service.test.ts"]
+      "taskIds": [
+        "O11-01",
+        "O11-02",
+        "O11-03"
+      ],
+      "replayTests": [
+        "frontend/tests/o11-awcp-ui.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/procurement-service.test.ts"
+      ]
     },
     {
       "scenarioId": "O12",
-      "taskIds": ["O12-01", "O12-02", "O12-03"],
-      "replayTests": ["tests/o12-awcp-ui.test.tsx"],
-      "stateTests": ["tests/contract-service.test.ts"]
+      "taskIds": [
+        "O12-01",
+        "O12-02",
+        "O12-03"
+      ],
+      "replayTests": [
+        "frontend/tests/o12-awcp-ui.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/contract-service.test.ts"
+      ]
     },
     {
       "scenarioId": "O13",
-      "taskIds": ["O13-01", "O13-02", "O13-03"],
-      "replayTests": ["tests/o13-awcp-ui.test.tsx"],
-      "stateTests": ["tests/admin-service.test.ts"]
+      "taskIds": [
+        "O13-01",
+        "O13-02",
+        "O13-03"
+      ],
+      "replayTests": [
+        "frontend/tests/o13-awcp-ui.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/admin-service.test.ts"
+      ]
     },
     {
       "scenarioId": "O14",
-      "taskIds": ["O14-01", "O14-02", "O14-03"],
-      "replayTests": ["tests/o14-awcp-ui.test.tsx"],
-      "stateTests": ["tests/project-collab-service.test.ts"]
+      "taskIds": [
+        "O14-01",
+        "O14-02",
+        "O14-03"
+      ],
+      "replayTests": [
+        "frontend/tests/o14-awcp-ui.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/project-collab-service.test.ts"
+      ]
     },
     {
       "scenarioId": "O15",
-      "taskIds": ["O15-01", "O15-02", "O15-03"],
-      "replayTests": ["tests/o15-awcp-ui.test.tsx"],
-      "stateTests": ["tests/it-service.test.ts"]
+      "taskIds": [
+        "O15-01",
+        "O15-02",
+        "O15-03"
+      ],
+      "replayTests": [
+        "frontend/tests/o15-awcp-ui.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/it-service.test.ts"
+      ]
     },
     {
       "scenarioId": "O16",
-      "taskIds": ["O16-01", "O16-02", "O16-03"],
-      "replayTests": ["tests/o16-awcp-ui.test.tsx"],
-      "stateTests": ["tests/report-archive-service.test.ts"]
+      "taskIds": [
+        "O16-01",
+        "O16-02",
+        "O16-03"
+      ],
+      "replayTests": [
+        "frontend/tests/o16-awcp-ui.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/report-archive-service.test.ts"
+      ]
     },
     {
       "scenarioId": "S01",
-      "taskIds": ["S01"],
-      "replayTests": ["tests/s01-awcp-ui.test.tsx"],
-      "stateTests": ["tests/suitability-service.test.ts"]
+      "taskIds": [
+        "S01"
+      ],
+      "replayTests": [
+        "frontend/tests/s01-awcp-ui.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/suitability-service.test.ts"
+      ]
     },
     {
       "scenarioId": "S02",
-      "taskIds": ["S02"],
-      "replayTests": ["tests/s02-awcp-ui.test.tsx"],
-      "stateTests": ["tests/research-service.test.ts"]
+      "taskIds": [
+        "S02"
+      ],
+      "replayTests": [
+        "frontend/tests/s02-awcp-ui.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/research-service.test.ts"
+      ]
     },
     {
       "scenarioId": "S03",
-      "taskIds": ["S03"],
-      "replayTests": ["tests/s03-awcp-ui.test.tsx"],
-      "stateTests": ["tests/ib-project-service.test.ts"]
+      "taskIds": [
+        "S03"
+      ],
+      "replayTests": [
+        "frontend/tests/s03-awcp-ui.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/ib-project-service.test.ts"
+      ]
     },
     {
       "scenarioId": "S04",
-      "taskIds": ["S04"],
-      "replayTests": ["tests/s04-awcp-ui.test.tsx"],
-      "stateTests": ["tests/risk-alert-service.test.ts"]
+      "taskIds": [
+        "S04"
+      ],
+      "replayTests": [
+        "frontend/tests/s04-awcp-ui.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/risk-alert-service.test.ts"
+      ]
     },
     {
       "scenarioId": "S05",
-      "taskIds": ["S05"],
-      "replayTests": ["tests/s05-awcp-ui.test.tsx"],
-      "stateTests": ["tests/institution-service.test.ts"]
+      "taskIds": [
+        "S05"
+      ],
+      "replayTests": [
+        "frontend/tests/s05-awcp-ui.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/institution-service.test.ts"
+      ]
     },
     {
       "scenarioId": "P01",
-      "taskIds": ["P01"],
-      "replayTests": ["tests/p01-discovery.test.tsx"],
-      "stateTests": ["tests/p01-discovery.test.tsx"]
+      "taskIds": [
+        "P01"
+      ],
+      "replayTests": [
+        "frontend/tests/p01-discovery.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/p01-discovery.test.tsx"
+      ]
     },
     {
       "scenarioId": "P02",
-      "taskIds": ["P02"],
-      "replayTests": ["tests/p02-schema.test.tsx"],
-      "stateTests": ["tests/p02-schema.test.tsx"]
+      "taskIds": [
+        "P02"
+      ],
+      "replayTests": [
+        "frontend/tests/p02-schema.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/p02-schema.test.tsx"
+      ]
     },
     {
       "scenarioId": "P03",
-      "taskIds": ["P03"],
-      "replayTests": ["tests/p03-validation.test.tsx"],
-      "stateTests": ["tests/p03-validation.test.tsx"]
+      "taskIds": [
+        "P03"
+      ],
+      "replayTests": [
+        "frontend/tests/p03-validation.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/p03-validation.test.tsx"
+      ]
     },
     {
       "scenarioId": "P04",
-      "taskIds": ["P04"],
-      "replayTests": ["tests/p04-revision.test.tsx"],
-      "stateTests": ["tests/p04-revision.test.tsx"]
+      "taskIds": [
+        "P04"
+      ],
+      "replayTests": [
+        "frontend/tests/p04-revision.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/p04-revision.test.tsx"
+      ]
     },
     {
       "scenarioId": "P05",
-      "taskIds": ["P05"],
-      "replayTests": ["tests/p05-lifecycle.test.tsx"],
-      "stateTests": ["tests/p05-lifecycle.test.tsx"]
+      "taskIds": [
+        "P05"
+      ],
+      "replayTests": [
+        "frontend/tests/p05-lifecycle.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/p05-lifecycle.test.tsx"
+      ]
     },
     {
       "scenarioId": "P06",
-      "taskIds": ["P06"],
-      "replayTests": ["tests/p06-cancellation.test.tsx"],
-      "stateTests": ["tests/p06-cancellation.test.tsx"]
+      "taskIds": [
+        "P06"
+      ],
+      "replayTests": [
+        "frontend/tests/p06-cancellation.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/p06-cancellation.test.tsx"
+      ]
     },
     {
       "scenarioId": "P07",
-      "taskIds": ["P07"],
-      "replayTests": ["tests/p07-idempotency.test.tsx"],
-      "stateTests": ["tests/p07-idempotency.test.tsx"]
+      "taskIds": [
+        "P07"
+      ],
+      "replayTests": [
+        "frontend/tests/p07-idempotency.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/p07-idempotency.test.tsx"
+      ]
     },
     {
       "scenarioId": "P08",
-      "taskIds": ["P08"],
-      "replayTests": ["tests/p08-errors.test.tsx"],
-      "stateTests": ["tests/p08-errors.test.tsx"]
+      "taskIds": [
+        "P08"
+      ],
+      "replayTests": [
+        "frontend/tests/p08-errors.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/p08-errors.test.tsx"
+      ]
     },
     {
       "scenarioId": "P09",
-      "taskIds": ["P09"],
-      "replayTests": ["tests/p09-dynamic.test.tsx"],
-      "stateTests": ["tests/p09-dynamic.test.tsx"]
+      "taskIds": [
+        "P09"
+      ],
+      "replayTests": [
+        "frontend/tests/p09-dynamic.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/p09-dynamic.test.tsx"
+      ]
     },
     {
       "scenarioId": "P10",
-      "taskIds": ["P10"],
-      "replayTests": ["tests/p10-capacity.test.tsx"],
-      "stateTests": ["tests/p10-capacity.test.tsx"]
+      "taskIds": [
+        "P10"
+      ],
+      "replayTests": [
+        "frontend/tests/p10-capacity.test.tsx"
+      ],
+      "stateTests": [
+        "frontend/tests/p10-capacity.test.tsx"
+      ]
     }
   ]
 }

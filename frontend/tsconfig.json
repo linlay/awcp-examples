@@ -1,0 +1,49 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": [
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "types": [
+      "node",
+      "react",
+      "react-dom"
+    ],
+    "paths": {
+      "@app/awcp": [
+        "../package/awcp/index.ts"
+      ],
+      "@app/ui": [
+        "../package/ui/index.ts"
+      ],
+      "@app/api": [
+        "../package/api/index.ts"
+      ]
+    }
+  },
+  "include": [
+    "src",
+    "tests",
+    "../package"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "coverage"
+  ]
+}

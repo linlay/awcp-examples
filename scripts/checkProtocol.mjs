@@ -15,13 +15,13 @@ const bridge = readFileSync(resolve(root, 'package/awcp/bridge.ts'), 'utf8');
 assert.match(bridge, /protocolVersion: 1 as const/);
 for (const method of ['manual', 'invoke', 'cancel']) assert.match(bridge, new RegExp(`\\b${method}\\(`));
 
-const scanPaths = ['src', 'tests', 'package', 'build', 'scripts'];
-const configPaths = ['package.json', 'webpack.config.cjs', 'vitest.config.ts', 'tsconfig.json'];
+const scanPaths = ['frontend/src', 'frontend/tests', 'package', 'frontend/build', 'scripts'];
+const configPaths = ['package.json', 'frontend/package.json', 'frontend/webpack.config.cjs', 'frontend/vitest.config.ts', 'frontend/tsconfig.json'];
 for (const path of scanPaths) {
   for (const file of files(resolve(root, path))) {
     const content = readFileSync(file, 'utf8');
     assertAllowedScopes(content, file);
-    if (path === 'build') assertNoSiblingPath(content, file);
+    if (path === 'frontend/build') assertNoSiblingPath(content, file);
   }
 }
 for (const path of configPaths) {
@@ -38,7 +38,7 @@ function assertAllowedScopes(content, file) {
 }
 
 function assertNoSiblingPath(content, file) {
-  if (/['"`]\.\.\/[^'"`]+/.test(content)) throw new Error(`Sibling project path in ${file}`);
+  if (/['"`]\.\.\/(?!package(?:\/|['"`]))[^'"`]+/.test(content)) throw new Error(`Sibling project path in ${file}`);
 }
 
 function* files(path) {

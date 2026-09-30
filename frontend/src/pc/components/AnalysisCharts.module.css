@@ -1,0 +1,283 @@
+.charts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+.card {
+  min-width: 0;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-default);
+  border-radius: 12px;
+  padding: 24px;
+}
+.card header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+.card h2 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+.card p {
+  color: var(--color-text-muted);
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.trend,
+.business {
+  grid-column: 1/-1;
+}
+.segment {
+  display: flex;
+  background: var(--color-bg-surface-subtle);
+  padding: 3px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 6px;
+}
+.segment button {
+  border: 0;
+  background: transparent;
+  color: var(--color-text-secondary);
+  padding: 6px 12px;
+  border-radius: 4px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.segment button[aria-pressed='true'] {
+  background: var(--color-blue-bg);
+  color: var(--color-blue-hover);
+}
+.trendScroll {
+  overflow-x: auto;
+}
+.lineChart {
+  display: block;
+  width: 100%;
+  min-width: 440px;
+  max-height: 310px;
+}
+.axis {
+  fill: var(--color-text-muted);
+  font-size: 10px;
+}
+.gridLine {
+  stroke: var(--color-border-subtle);
+  stroke-dasharray: 3 5;
+}
+.lineChart circle[role='button'] {
+  cursor: pointer;
+}
+.lineChart circle[role='button']:hover {
+  fill: rgba(59, 130, 246, 0.2);
+}
+.donutLayout {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.donut {
+  width: 170px;
+  flex-shrink: 0;
+}
+.total {
+  fill: var(--color-text-primary);
+  font-size: 20px;
+  font-weight: 650;
+}
+.legend {
+  display: grid;
+  gap: 18px;
+  flex: 1;
+}
+.legend button {
+  display: grid;
+  grid-template-columns: 8px 1fr auto;
+  gap: 6px 9px;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  text-align: left;
+  padding: 0;
+  cursor: pointer;
+}
+.legend small {
+  grid-column: 2;
+  color: var(--color-text-muted);
+}
+.legend strong {
+  color: var(--color-text-primary);
+}
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.ranks {
+  display: grid;
+  gap: 16px;
+}
+.ranks button {
+  background: transparent;
+  border: 0;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  color: var(--color-text-secondary);
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+.rank {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.rankBody {
+  flex: 1;
+  display: grid;
+  gap: 8px;
+  font-size: 12px;
+}
+.rankBody > span:first-child {
+  display: flex;
+  justify-content: space-between;
+}
+.rankBody strong {
+  color: var(--color-text-primary);
+}
+.track {
+  display: block;
+  height: 5px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--color-bg-surface-elevated);
+}
+.track > span {
+  height: 100%;
+  display: block;
+  background: #3b82f6;
+  border-radius: 4px;
+}
+.columns {
+  display: flex;
+  justify-content: space-around;
+  gap: 12px;
+}
+.columns button {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 12px;
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 0;
+  font-size: 12px;
+  cursor: pointer;
+}
+.columnSpace {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 190px;
+  padding-top: 24px;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+.column {
+  display: block;
+  width: min(65%, 100px);
+  min-height: 1px;
+  border-radius: 5px 5px 0 0;
+  position: relative;
+}
+.column strong {
+  position: absolute;
+  left: 50%;
+  top: -24px;
+  transform: translateX(-50%);
+  color: var(--color-text-primary);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.dataTable {
+  color: var(--color-text-muted);
+  font-size: 12px;
+  margin-top: 8px;
+}
+.dataTable summary {
+  cursor: pointer;
+}
+.dataTable table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  margin-top: 14px;
+}
+.dataTable :is(td, th) {
+  padding: 8px;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+.dataTable button {
+  background: transparent;
+  color: var(--color-blue-hover);
+  border: 0;
+  cursor: pointer;
+}
+.placeholder {
+  border: 1px solid var(--color-border-default);
+  border-radius: 12px;
+  padding: 28px;
+  margin-bottom: 24px;
+  color: var(--color-text-muted);
+  background: var(--color-bg-surface);
+}
+.charts [aria-busy='true'],
+.charts button:disabled {
+  opacity: 0.5;
+}
+.charts :is(button, circle, summary):focus-visible {
+  outline: 2px solid var(--color-blue-hover);
+  outline-offset: 4px;
+}
+@media (max-width: 1100px) {
+  .charts {
+    grid-template-columns: 1fr;
+  }
+  .donutLayout {
+    justify-content: space-around;
+  }
+  .legend {
+    max-width: 300px;
+  }
+}
+@media (max-width: 640px) {
+  .card {
+    padding: 18px;
+  }
+  .card header {
+    flex-wrap: wrap;
+  }
+  .donutLayout {
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .donut {
+    width: 145px;
+  }
+  .legend {
+    min-width: 140px;
+  }
+  .columns {
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+  .columns button {
+    min-width: 70px;
+  }
+}

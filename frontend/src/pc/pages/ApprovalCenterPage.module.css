@@ -1,0 +1,179 @@
+.page {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 8px;
+  color: var(--color-text-primary);
+  overflow: hidden;
+  font-size: 13px;
+}
+.heading {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.heading h1 {
+  font-size: 20px;
+  margin: 0;
+}
+.page a {
+  color: var(--color-blue-hover);
+  text-decoration: none;
+}
+.page a:hover {
+  text-decoration: underline;
+}
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--color-border-subtle);
+  overflow-x: auto;
+}
+.page button {
+  cursor: pointer;
+  color: var(--color-text-primary);
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-default);
+  border-radius: 5px;
+  padding: 7px 12px;
+  white-space: nowrap;
+}
+.tabs button {
+  border: 0;
+  border-radius: 0;
+  padding: 14px 20px;
+  border-bottom: 2px solid transparent;
+}
+.tabs button[aria-selected='true'] {
+  color: var(--color-blue-hover);
+  border-bottom-color: var(--color-blue-primary);
+}
+.tabs span {
+  border-radius: 10px;
+  padding: 1px 6px;
+  background: var(--color-blue-bg);
+  font-size: 11px;
+}
+.saved {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+}
+.saved > span {
+  margin-right: auto;
+  color: var(--color-text-muted);
+}
+.filters {
+  display: grid;
+  grid-template-columns: 1.25fr 1.25fr 1fr 1fr auto;
+  gap: 14px;
+  padding: 8px 20px 20px;
+}
+.filters label {
+  display: grid;
+  gap: 8px;
+}
+.page input:not([type='checkbox']),
+.page select {
+  width: 100%;
+  min-width: 0;
+  padding: 7px 9px;
+  border: 1px solid var(--color-border-default);
+  border-radius: 5px;
+  background: var(--color-bg-surface);
+  color: var(--color-text-primary);
+}
+.page input[type='checkbox'] {
+  accent-color: var(--color-blue-primary);
+}
+.filterActions {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+.page .primary {
+  background: var(--color-blue-primary);
+  color: #fff;
+  border-color: var(--color-blue-primary);
+}
+.page button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.batch {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 0 20px 12px;
+}
+.batch > span {
+  margin-right: auto;
+  white-space: nowrap;
+}
+.batch label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.batch input {
+  max-width: 220px;
+}
+.tableScroll {
+  overflow-x: auto;
+}
+.tableScroll table {
+  width: 100%;
+  min-width: 1080px;
+  border-collapse: collapse;
+  text-align: left;
+}
+.tableScroll th {
+  background: var(--color-bg-surface-subtle);
+  white-space: nowrap;
+  font-weight: 600;
+  padding: 14px 12px;
+}
+.tableScroll td {
+  border-bottom: 1px solid var(--color-border-subtle);
+  padding: 16px 12px;
+  vertical-align: top;
+  line-height: 1.6;
+}
+.tableScroll tr:hover td {
+  background: var(--color-blue-bg);
+}
+.tableScroll small {
+  display: block;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+}
+.summary {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.empty {
+  text-align: center;
+  color: var(--color-text-muted);
+  height: 130px;
+}
+.footer,
+.message {
+  padding: 16px 20px;
+  color: var(--color-text-secondary);
+}
+.page :is(button, input, select, a):focus-visible {
+  outline: 2px solid var(--color-blue-primary);
+  outline-offset: 2px;
+}
+@media (max-width: 1100px) {
+  .filters {
+    grid-template-columns: 1fr 1fr;
+  }
+  .batch,
+  .saved {
+    flex-wrap: wrap;
+  }
+}

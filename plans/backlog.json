@@ -1833,5 +1833,7 @@
         "依赖安装由用户执行；记录版本、复位方式及遗留事项，清理临时状态。"
       ]
     }
-  ]
+  ],
+  "historical": true,
+  "supersededBy": "fullstack/README.md"
 }

@@ -1,0 +1,657 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AWCP Demo HTTP API",
+    "version": "0.1.0",
+    "description": "Foundation phase. Business O/S command APIs are not yet migrated. AWCP protocol remains in the browser."
+  },
+  "paths": {
+    "/healthz": {
+      "get": {
+        "operationId": "health",
+        "responses": {
+          "200": {
+            "description": "Process and SQLite available"
+          },
+          "503": {
+            "description": "Unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/session": {
+      "get": {
+        "operationId": "getSession",
+        "description": "Create or resume an isolated demo session; sets HttpOnly SameSite=Lax cookie. No raw token in JSON.",
+        "responses": {
+          "200": {
+            "description": "Session metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/session/reset": {
+      "post": {
+        "operationId": "resetSession",
+        "security": [
+          {
+            "demoCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Demo-Generation",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Browser-managed header; must match configured origins."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Session missing or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Origin rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Generation/reset conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "JSON required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/query": {
+      "post": {
+        "operationId": "queryHistoricalReport",
+        "security": [
+          {
+            "demoCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Demo-Generation",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Browser-managed header; must match configured origins."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportFilter"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Report"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Session missing or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Origin rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Generation/reset conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "JSON required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "demoCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "awcp_demo"
+      }
+    },
+    "schemas": {
+      "Employee": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "departmentId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "active": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "departmentId",
+          "name",
+          "roles",
+          "active"
+        ]
+      },
+      "Department": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "Session": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "generation": {
+            "type": "string"
+          },
+          "seed": {
+            "type": "integer"
+          },
+          "datasetVersion": {
+            "type": "string"
+          },
+          "profile": {
+            "type": "string",
+            "enum": [
+              "acceptance",
+              "standard"
+            ]
+          },
+          "simulatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "employees": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Employee"
+            }
+          },
+          "departments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Department"
+            }
+          },
+          "recordCount": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "generation",
+          "seed",
+          "datasetVersion",
+          "profile",
+          "simulatedAt",
+          "expiresAt",
+          "employees",
+          "departments",
+          "recordCount"
+        ]
+      },
+      "ResetInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_.:-]{1,128}$"
+          }
+        },
+        "required": [
+          "requestId"
+        ]
+      },
+      "ReportFilter": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "from": {
+            "type": "string",
+            "pattern": "^(|[0-9]{4}-[0-9]{2}-[0-9]{2})$"
+          },
+          "to": {
+            "type": "string",
+            "pattern": "^(|[0-9]{4}-[0-9]{2}-[0-9]{2})$"
+          },
+          "departmentId": {
+            "type": "string",
+            "pattern": "^(|DEP-[0-9]{3})$"
+          },
+          "scenarioId": {
+            "type": "string",
+            "enum": [
+              "",
+              "O08",
+              "O09",
+              "O11",
+              "O12",
+              "O15"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "",
+              "pending",
+              "approved",
+              "returned",
+              "withdrawn"
+            ]
+          },
+          "groupBy": {
+            "type": "string",
+            "enum": [
+              "month",
+              "department",
+              "scenario",
+              "status"
+            ],
+            "default": "month"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000,
+            "default": 1
+          },
+          "pageSize": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20
+          }
+        },
+        "required": []
+      },
+      "Metrics": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "amountCents": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "approved": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "overdue": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "averageHours": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "count",
+          "amountCents",
+          "approved",
+          "overdue",
+          "averageHours"
+        ]
+      },
+      "ReportGroup": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "amountCents": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "approved": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "overdue": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "averageHours": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "key",
+          "count",
+          "amountCents",
+          "approved",
+          "overdue",
+          "averageHours"
+        ]
+      },
+      "ReportEntry": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "scenarioId": {
+            "type": "string"
+          },
+          "departmentId": {
+            "type": "string"
+          },
+          "ownerId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "amountCents": {
+            "type": "integer"
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "durationHours": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "overdue": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "scenarioId",
+          "departmentId",
+          "ownerId",
+          "title",
+          "status",
+          "amountCents",
+          "createdOn",
+          "durationHours",
+          "overdue"
+        ]
+      },
+      "Report": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "generation": {
+            "type": "string"
+          },
+          "filter": {
+            "$ref": "#/components/schemas/ReportFilter"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/Metrics"
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportGroup"
+            }
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportEntry"
+            }
+          }
+        },
+        "required": [
+          "generation",
+          "filter",
+          "summary",
+          "groups",
+          "items"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "fieldErrors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "path": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "messages": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "path",
+                "messages"
+              ]
+            }
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      }
+    }
+  }
+}
