@@ -10,6 +10,8 @@ pnpm run dev
 
 打开 <http://127.0.0.1:2181/api/v1/mcp/connect>，输入 **demo / demo**，复制页面中的 Access Token。
 
+也可从业务网站总 Header 的 **MCP 连接** 进入：查看并复制服务地址、选择 OAuth 或手动 Token 接入，展开 OAuth 发现地址。登录页在新标签页打开。地址使用会话返回的后端连接配置，不使用前端开发服务器端口；服务未启用或连接信息不可用时会显示对应提示。
+
 - MCP URL：`http://127.0.0.1:2181/mcp`
 - 认证：`Authorization: Bearer <Access Token>`
 - Token 有效期：一小时，过期重新登录。

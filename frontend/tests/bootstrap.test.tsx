@@ -12,7 +12,7 @@ it('opens the scene catalog with an empty AWCP manual and restores the bridge on
   const root = createRoot(container);
 
   try {
-    window.history.replaceState(null, '', '/');
+    window.history.replaceState(null, '', '/navigation');
     await act(async () => {
       root.render(
         <StrictMode>
@@ -31,8 +31,8 @@ it('opens the scene catalog with an empty AWCP manual and restores the bridge on
     if (!('sections' in manual)) throw new Error('Expected an AWCP manual index.');
     expect(manual.sections).toEqual([]);
     expect(manual.revision).not.toBe('');
-    expect(container.textContent).toContain('场景目录');
-    expect(container.querySelectorAll('a[href^="/scenes/"]').length).toBe(31);
+    expect(container.textContent).toContain('站内导航');
+    expect(container.querySelectorAll('section[aria-label="站内导航"] a[href^="/scenes/"]').length).toBe(31);
   } finally {
     await act(async () => root.unmount());
     window.history.replaceState(null, '', previousUrl);

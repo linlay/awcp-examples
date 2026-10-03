@@ -7,7 +7,7 @@
   font-size: 13px;
 }
 .heading {
-  padding: 16px 20px;
+  padding: 12px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -40,7 +40,7 @@
 .tabs button {
   border: 0;
   border-radius: 0;
-  padding: 14px 20px;
+  padding: 10px 16px;
   border-bottom: 2px solid transparent;
 }
 .tabs button[aria-selected='true'] {
@@ -57,7 +57,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 16px 20px;
+  padding: 12px 16px;
 }
 .saved > span {
   margin-right: auto;
@@ -66,8 +66,8 @@
 .filters {
   display: grid;
   grid-template-columns: 1.25fr 1.25fr 1fr 1fr auto;
-  gap: 14px;
-  padding: 8px 20px 20px;
+  gap: 10px;
+  padding: 4px 16px 12px;
 }
 .filters label {
   display: grid;
@@ -104,7 +104,7 @@
   display: flex;
   gap: 12px;
   align-items: center;
-  padding: 0 20px 12px;
+  padding: 0 16px 12px;
 }
 .batch > span {
   margin-right: auto;
@@ -132,11 +132,11 @@
   background: var(--color-bg-surface-subtle);
   white-space: nowrap;
   font-weight: 600;
-  padding: 14px 12px;
+  padding: 8px 10px;
 }
 .tableScroll td {
   border-bottom: 1px solid var(--color-border-subtle);
-  padding: 16px 12px;
+  padding: 8px 10px;
   vertical-align: top;
   line-height: 1.6;
 }
@@ -146,7 +146,7 @@
 .tableScroll small {
   display: block;
   color: var(--color-text-muted);
-  margin-top: 4px;
+  margin-top: 2px;
 }
 .summary {
   max-width: 200px;
@@ -161,7 +161,7 @@
 }
 .footer,
 .message {
-  padding: 16px 20px;
+  padding: 12px 16px;
   color: var(--color-text-secondary);
 }
 .page :is(button, input, select, a):focus-visible {
@@ -177,3 +177,15 @@
     flex-wrap: wrap;
   }
 }
+
+.tableScroll :is(th, td):last-child {
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  background: var(--color-bg-surface);
+  box-shadow: -1px 0 var(--color-border-subtle);
+  white-space: nowrap;
+}
+.tableScroll th:last-child { background: var(--color-bg-surface-subtle); }
+
+.tableScroll tr:hover td:last-child { background: var(--color-bg-surface); }

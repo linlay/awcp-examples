@@ -5,12 +5,12 @@ import { SCENARIO_GROUPS } from '../scenarios/catalog';
 import type { AppRoute } from '../../pc/routes/route';
 
 const CATALOG_SITE: AwcpSiteInfo = {
-  name: 'AWCP 业务协同示例项目',
+  name: '站内导航',
   description: describePage({
     purpose: '浏览通用办公、证券业务和协议实验的场景目录。',
-    regions: '按场景类型列出 ID、名称与可访问地址。',
+    regions: '按场景类型列出 ID、业务名称、技术验证重点与可访问地址，可搜索。',
     flow: '打开目标场景后重新读取 AWCP 目录。',
-    limits: '示例话术只供复制，不触发固定流程；所有数据均为虚构。'
+    limits: '导航不触发业务流程；所有数据均为虚构。'
   })
 };
 

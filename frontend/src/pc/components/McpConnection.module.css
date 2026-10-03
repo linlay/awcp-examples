@@ -1,0 +1,125 @@
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  min-height: 32px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 6px;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-surface);
+  font: inherit;
+  font-size: 13px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.trigger:hover {
+  color: var(--color-blue-hover);
+  border-color: var(--color-blue-border);
+}
+.trigger:focus-visible {
+  outline: 2px solid var(--color-blue-primary);
+  outline-offset: 2px;
+}
+.content {
+  display: grid;
+  gap: 16px;
+  padding-top: 8px;
+}
+.addressHeading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.addressHeading label {
+  font-weight: 600;
+}
+.addressHeading span,
+.hint {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+.addressRow {
+  display: flex;
+  gap: 8px;
+}
+.addressRow input {
+  width: 100%;
+  min-width: 0;
+  padding: 6px 10px;
+  border: 1px solid var(--color-border-default);
+  border-radius: 6px;
+  background: var(--color-bg-canvas);
+  color: var(--color-text-primary);
+  font: 13px/1.5 monospace;
+}
+.addressRow input:focus {
+  outline: 2px solid var(--color-blue-primary);
+  outline-offset: 1px;
+}
+.copyStatus {
+  min-height: 18px;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+.method {
+  border-top: 1px solid var(--color-border-subtle);
+  padding-top: 12px;
+}
+.method h3 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: var(--color-text-primary);
+}
+.method p {
+  margin: 0 0 8px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+.tokenHeader {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: var(--color-bg-canvas);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.tokenActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin-top: 10px;
+}
+.discovery {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+.discovery summary {
+  cursor: pointer;
+}
+.discovery a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  margin-top: 8px;
+}
+.unavailable {
+  margin: 16px 0 8px;
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 480px) {
+  .addressRow {
+    flex-wrap: wrap;
+  }
+  .addressRow input {
+    flex-basis: 100%;
+  }
+}

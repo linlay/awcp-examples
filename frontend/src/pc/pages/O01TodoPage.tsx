@@ -16,6 +16,7 @@ import { completed, describeAction } from '../../common/awcp/contracts';
 import { TODO_COMPLETE_SCHEMA, TODO_QUERY_SCHEMA, TODO_SUMMARY_SCHEMA } from '../../common/awcp/todoSchemas';
 import type { Todo } from '../../common/fixtures/types';
 import type { DemoRepository } from '../../common/store/repository';
+import { ListPagination } from '../components/ListPagination';
 import { AppLink } from '../components/AppShell';
 import {
   TodoService,
@@ -63,6 +64,10 @@ export default function O01TodoPage({
   const [service] = useState(() => new TodoService(repository));
   const [actorId, setActorId] = useState('EMP-002');
   const [date, setDate] = useState(() => service.query(QUERY).date);
+  const [tab, setTab] = useState<'pending' | 'done'>('pending');
+  const [page, setPage] = useState(1);
+  const [keyword, setKeyword] = useState('');
+  const [historyDate, setHistoryDate] = useState('');
   const [message, setMessage] = useState('');
   const [, setRevision] = useState(0);
   const keys = useRef(new Map<string, string>());
@@ -70,7 +75,40 @@ export default function O01TodoPage({
 
   const state = repository.snapshot();
   const visible = service.query({ actorId }).items;
-  const current = objectId ? state.todos.find((todo) => todo.id === objectId) : undefined;
+  const history = service.history({ actorId });
+  const current = objectId
+    ? state.todos.find(
+        (todo) =>
+          todo.id === objectId &&
+          (visible.some((row) => row.todoId === todo.id) || history.some((row) => row.id === todo.id))
+      )
+    : undefined;
+  const rows =
+    tab === 'pending'
+      ? visible.map((row) => ({ ...row, completedAt: null as string | null }))
+      : history.map((row) => ({
+          todoId: row.id,
+          title: row.title,
+          assigneeId: row.assigneeId,
+          sourceId: row.sourceId,
+          sourceType: row.sourceType,
+          dueAt: row.dueAt,
+          completedAt: row.completedAt ?? null,
+          priority: 'today' as const,
+          canComplete: false,
+          sourceVersion: null
+        }));
+  const filtered = rows.filter(
+    (row) =>
+      `${row.title} ${row.todoId} ${row.sourceId}`.toLocaleLowerCase().includes(keyword.trim().toLocaleLowerCase()) &&
+      (tab !== 'done' ||
+        !historyDate ||
+        new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Shanghai' }).format(
+          new Date(row.completedAt ?? row.dueAt)
+        ) === historyDate)
+  );
+  const currentPage = Math.min(page, Math.max(1, Math.ceil(filtered.length / 20)));
+  const pageRows = filtered.slice((currentPage - 1) * 20, currentPage * 20);
   const summary = /^\d{4}-\d{2}-\d{2}$/.test(date) ? service.summarize({ actorId, date }) : null;
 
   const queryAction: AwcpActionRegistration<TodoQueryInput> = {
@@ -178,15 +216,17 @@ export default function O01TodoPage({
     <section className={styles.page} aria-label={t('工作台与待办')}>
       <header className={styles.heading}>
         <div>
-          <p className={styles.eyebrow}>
-            WORKSPACE <span>／ {t('工作台')}</span>
-          </p>
-          <h1>{current ? current.title : t('我的待办与业务入口')}</h1>
-          <p className={styles.intro}>{t('集中处理待办，快速发起日常业务。')}</p>
+          <h1>{current ? current.title : t('工作台')}</h1>
         </div>
         <label className={styles.actor}>
           {t('操作人')}
-          <select value={actorId} onChange={(event) => setActorId(event.target.value)}>
+          <select
+            value={actorId}
+            onChange={(event) => {
+              setActorId(event.target.value);
+              setPage(1);
+            }}
+          >
             {service.actors().map((actor) => (
               <option key={actor.id} value={actor.id}>
                 {actor.name}（{actor.id}）
@@ -224,16 +264,15 @@ export default function O01TodoPage({
                 <CheckCircleOutlined />
               </span>
               <div>
-                <p>{t('所选日期已办')}</p>
-                <strong>{summary?.done ?? '—'}</strong>
-                <small>{date}</small>
+                <p>{t('我的已办')}</p>
+                <strong>{history.length}</strong>
+                <small>{t('全部演示历史')}</small>
               </div>
             </article>
           </div>
           <section className={styles.quickSection} aria-label={t('发起业务流程')}>
             <div className={styles.sectionHeading}>
               <h2>{t('业务快捷入口')}</h2>
-              <span>{t('从一张申请开始')}</span>
             </div>
             <nav className={styles.launch}>
               {shortcuts.map((item) => (
@@ -288,79 +327,133 @@ export default function O01TodoPage({
       ) : (
         <section className={styles.todoPanel}>
           <div className={styles.panelHeading}>
-            <div>
-              <h2>
-                {t('待办事项')} <span className={styles.count}>{visible.length}</span>
-              </h2>
-              <p>{t('按到期时间排序，优先展示逾期事项。')}</p>
+            <div className={styles.tabs} role="tablist" aria-label={t('工作台事项')}>
+              {(['pending', 'done'] as const).map((key) => (
+                <button
+                  key={key}
+                  id={`todo-tab-${key}`}
+                  type="button"
+                  role="tab"
+                  aria-selected={tab === key}
+                  aria-controls="todo-panel"
+                  onClick={() => {
+                    setTab(key);
+                    setPage(1);
+                  }}
+                >
+                  {t(key === 'pending' ? '我的待办' : '我的已办')}{' '}
+                  <span className={styles.count}>{key === 'pending' ? visible.length : history.length}</span>
+                </button>
+              ))}
             </div>
             <span className={styles.demoDate}>
               {t('演示日期')} {service.query({ actorId }).date}
             </span>
           </div>
-          <div className={styles.tableScroll}>
-            <table className={styles.todoTable}>
-              <thead>
-                <tr>
-                  <th>{t('事项')}</th>
-                  <th>{t('到期时间')}</th>
-                  <th>{t('状态')}</th>
-                  <th>{t('操作')}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {visible.map((row) => (
-                  <tr key={row.todoId}>
-                    <td>
-                      <div className={styles.todoSubject}>
-                        <span className={styles.documentIcon}>
-                          <FileTextOutlined />
-                        </span>
-                        <div>
-                          <AppLink href={`/scenes/O01/objects/${encodeURIComponent(row.todoId)}`} navigate={navigate}>
-                            {row.title}
-                          </AppLink>
-                          <small>
-                            {row.todoId} · {row.sourceId}
-                          </small>
-                        </div>
-                      </div>
-                    </td>
-                    <td className={styles.dueDate}>{formatDate(row.dueAt)}</td>
-                    <td>
-                      <span
-                        className={`${styles.statusPill} ${row.priority === 'overdue' ? styles.overdue : styles.today}`}
-                      >
-                        {t(row.priority === 'overdue' ? '逾期' : '今日待办')}
-                      </span>
-                    </td>
-                    <td>
-                      {row.canComplete ? (
-                        <button className={styles.processButton} type="button" onClick={() => complete(row)}>
-                          {t('处理待办')} <ArrowRightOutlined />
-                        </button>
-                      ) : (
-                        <AppLink
-                          href={`/scenes/O01/objects/${encodeURIComponent(row.todoId)}`}
-                          navigate={navigate}
-                          className={styles.textLink}
-                        >
-                          {t('查看详情')} <ArrowRightOutlined />
-                        </AppLink>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          {!visible.length && (
-            <div className={styles.empty}>
-              <CheckCircleOutlined />
-              <h3>{t('当前没有待办事项')}</h3>
-              <p>{t('可以从上方入口发起新的业务申请。')}</p>
+          <div id="todo-panel" role="tabpanel" aria-labelledby={`todo-tab-${tab}`}>
+            <div className={styles.listFilters}>
+              <label>
+                {t('搜索事项')}{' '}
+                <input
+                  type="search"
+                  value={keyword}
+                  placeholder={t('标题或编号')}
+                  onChange={(event) => {
+                    setKeyword(event.target.value);
+                    setPage(1);
+                  }}
+                />
+              </label>
+              {tab === 'done' && (
+                <label>
+                  {t('办理日期')}{' '}
+                  <input
+                    type="date"
+                    value={historyDate}
+                    onChange={(event) => {
+                      setHistoryDate(event.target.value);
+                      setPage(1);
+                    }}
+                  />
+                </label>
+              )}
+              {(keyword || historyDate) && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setKeyword('');
+                    setHistoryDate('');
+                    setPage(1);
+                  }}
+                >
+                  {t('清空条件')}
+                </button>
+              )}
             </div>
-          )}
+            <div className={styles.tableScroll}>
+              <table className={styles.todoTable}>
+                <thead>
+                  <tr>
+                    <th>{t('事项')}</th>
+                    <th>{t(tab === 'done' ? '办理时间' : '到期时间')}</th>
+                    <th>{t('状态')}</th>
+                    <th>{t('操作')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pageRows.map((row) => (
+                    <tr key={row.todoId}>
+                      <td>
+                        <div className={styles.todoSubject}>
+                          <span className={styles.documentIcon}>
+                            <FileTextOutlined />
+                          </span>
+                          <div>
+                            <AppLink href={`/scenes/O01/objects/${encodeURIComponent(row.todoId)}`} navigate={navigate}>
+                              {row.title}
+                            </AppLink>
+                            <small>
+                              {row.todoId} · {row.sourceId}
+                            </small>
+                          </div>
+                        </div>
+                      </td>
+                      <td className={styles.dueDate}>{formatDate(row.completedAt ?? row.dueAt)}</td>
+                      <td>
+                        <span
+                          className={`${styles.statusPill} ${tab === 'pending' && row.priority === 'overdue' ? styles.overdue : styles.today}`}
+                        >
+                          {t(tab === 'done' ? '已办结' : row.priority === 'overdue' ? '逾期' : '今日待办')}
+                        </span>
+                      </td>
+                      <td>
+                        {row.canComplete ? (
+                          <button className={styles.processButton} type="button" onClick={() => complete(row)}>
+                            {t('处理待办')} <ArrowRightOutlined />
+                          </button>
+                        ) : (
+                          <AppLink
+                            href={`/scenes/O01/objects/${encodeURIComponent(row.todoId)}`}
+                            navigate={navigate}
+                            className={styles.textLink}
+                          >
+                            {t('查看详情')} <ArrowRightOutlined />
+                          </AppLink>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {!filtered.length && (
+              <div className={styles.empty}>
+                <CheckCircleOutlined />
+                <h3>{t('暂无匹配事项')}</h3>
+              </div>
+            )}
+            <ListPagination total={filtered.length} page={currentPage} onChange={setPage} />
+          </div>
           <footer className={styles.daily}>
             <label>
               <CalendarOutlined /> {t('日报日期')}{' '}

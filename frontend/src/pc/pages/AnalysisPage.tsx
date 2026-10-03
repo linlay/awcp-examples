@@ -79,7 +79,9 @@ function AnalysisView({ api, session }: { api: DemoApi; session: DemoSession }):
   const max = Math.max(1, ...(result?.groups.map((group) => group.count) ?? []));
 
   return <section className={styles.page} aria-label={t("历史业务数据分析")}>
-    <header className={styles.heading}><div><p className={styles.eyebrow}>{t("数据分析 · 虚构历史样本")}</p><h1>{t("从条件到明细")}</h1><p>{t("覆盖审批、费用、采购、合同和 IT 服务的历史样本；不包含当前场景中新办理的记录。")}</p></div><span className={styles.dataset}>{session.recordCount.toLocaleString()} {t("条样本")}</span></header>
+    <header className={styles.heading}><h1>{t('数据分析')}</h1><div className={styles.headingMeta}>
+      <span>{t('历史演示样本，不含实时办理')}</span><span className={styles.dataset}>{session.recordCount.toLocaleString()} {t('条样本')}</span>
+    </div></header>
     <form className={styles.filters} onSubmit={submit}>
       <label>{t("开始日期")}<input type="date" value={draft.from} onChange={(event) => setDraft({ ...draft, from: event.target.value })} /></label>
       <label>{t("结束日期")}<input type="date" value={draft.to} onChange={(event) => setDraft({ ...draft, to: event.target.value })} /></label>

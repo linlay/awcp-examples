@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { DemoRepository } from '../../common/store/repository';
 import type { OfficeApprovalRequest } from '../../common/fixtures/types';
 import { usePreferences } from '../../common/preferences/context';
+import { ListPagination } from '../components/ListPagination';
 import { AppLink } from '../components/AppShell';
 import { useDemoSession } from '../hooks/useDemoSession';
 import { ApprovalService } from '../service/approvalService';
@@ -32,6 +33,7 @@ export default function ApprovalCenterPage({
   const [tab, setTab] = useState<Tab>('pending');
   const [draft, setDraft] = useState<Filter>(empty);
   const [filter, setFilter] = useState<Filter>(empty);
+  const [page, setPage] = useState(1);
   const [selected, setSelected] = useState<Record<string, number>>({});
   const [opinion, setOpinion] = useState('');
   const [message, setMessage] = useState('');
@@ -41,6 +43,7 @@ export default function ApprovalCenterPage({
   useEffect(() => repository.subscribe(() => setRevision((n) => n + 1)), [repository]);
   useEffect(() => {
     setSelected({});
+    setPage(1);
     setMessage('');
     try {
       const data: unknown = JSON.parse(sessionStorage.getItem(storageKey) ?? 'null');
@@ -76,7 +79,9 @@ export default function ApprovalCenterPage({
       (!filter.applicant || row.applicantId === filter.applicant) &&
       (!filter.department || row.departmentId === filter.department)
   );
-  const selectable = rows.filter((r) => r.status === 'submitted' && r.reviewerId === actorId);
+  const currentPage = Math.min(page, Math.max(1, Math.ceil(rows.length / 20)));
+  const pageRows = rows.slice((currentPage - 1) * 20, currentPage * 20);
+  const selectable = pageRows.filter((r) => r.status === 'submitted' && r.reviewerId === actorId);
   const chosen = selectable.filter((r) => Object.hasOwn(selected, r.id));
   function choose(id: string, version: number, checked: boolean) {
     setSelected((value) => {
@@ -103,6 +108,7 @@ export default function ApprovalCenterPage({
       }
     }
     setSelected({});
+    setPage(1);
     setMessage(outcomes.join(' · '));
   }
   function saveFilter() {
@@ -138,6 +144,7 @@ export default function ApprovalCenterPage({
             onClick={() => {
               setTab(item.key);
               setSelected({});
+              setPage(1);
             }}
           >
             {t(item.label)} <span>{all.filter((r) => matchesTab(r, item.key)).length}</span>
@@ -155,6 +162,7 @@ export default function ApprovalCenterPage({
                   setDraft(saved);
                   setFilter(saved);
                   setSelected({});
+                  setPage(1);
                 }}
               >
                 {t('已保存筛选')}
@@ -184,6 +192,7 @@ export default function ApprovalCenterPage({
             event.preventDefault();
             setFilter(draft);
             setSelected({});
+            setPage(1);
           }}
         >
           <label>
@@ -193,6 +202,7 @@ export default function ApprovalCenterPage({
               onChange={(event) => {
                 setActorId(event.target.value);
                 setSelected({});
+                setPage(1);
               }}
             >
               {service.actors().map((a) => (
@@ -241,6 +251,7 @@ export default function ApprovalCenterPage({
                 setDraft(empty);
                 setFilter(empty);
                 setSelected({});
+                setPage(1);
               }}
             >
               {t('重置')}
@@ -274,7 +285,7 @@ export default function ApprovalCenterPage({
                 <th>
                   <input
                     type="checkbox"
-                    aria-label={locale === 'zh-CN' ? '选择前 20 条可办理事项' : 'Select first 20 actionable requests'}
+                    aria-label={locale === 'zh-CN' ? '选择本页可办理事项' : 'Select actionable requests on this page'}
                     disabled={!selectable.length}
                     checked={!!selectable.length && selectable.slice(0, 20).every((r) => Object.hasOwn(selected, r.id))}
                     onChange={(event) =>
@@ -294,7 +305,7 @@ export default function ApprovalCenterPage({
               </tr>
             </thead>
             <tbody>
-              {rows.map((row) => {
+              {pageRows.map((row) => {
                 const path = `/scenes/O08/objects/${row.id}?actor=${encodeURIComponent(actorId)}`;
                 return (
                   <tr key={row.id}>
@@ -333,7 +344,7 @@ export default function ApprovalCenterPage({
                     <td>{t('一般')}</td>
                     <td>
                       {t(
-                        row.status === 'submitted' ? '主管审批' : row.status === 'approved' ? '流程结束' : '申请人补正'
+                        row.status === 'submitted' ? '主管审批' : row.status === 'returned' ? '申请人补正' : '流程结束'
                       )}
                       <small>{t(statuses[row.status])}</small>
                     </td>
@@ -357,9 +368,14 @@ export default function ApprovalCenterPage({
             </tbody>
           </table>
         </div>
-        <footer className={styles.footer}>
-          {locale === 'zh-CN' ? `共 ${rows.length} 条事项` : `${rows.length} requests`}
-        </footer>
+        <ListPagination
+          total={rows.length}
+          page={currentPage}
+          onChange={(next) => {
+            setPage(next);
+            setSelected({});
+          }}
+        />
       </div>
     </section>
   );

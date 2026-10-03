@@ -9,7 +9,8 @@ export type AppRoute =
 const scenePath = /^\/scenes\/([A-Z]\d{2})(?:(?:\/objects\/([^/]+))|(?:\/new(?:\/([^/]+))?))?\/?$/;
 
 export function resolveRoute(pathname: string): AppRoute {
-  if (pathname === '/' || pathname === '') return { kind: 'catalog' };
+  if (pathname === '/navigation') return { kind: 'catalog' };
+  if (pathname === '/' || pathname === '') pathname = '/scenes/O01';
 
   if (pathname === '/analysis') return { kind: 'analysis' };
   const match = scenePath.exec(pathname);

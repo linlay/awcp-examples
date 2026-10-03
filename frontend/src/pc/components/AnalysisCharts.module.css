@@ -1,26 +1,26 @@
 .charts {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-  margin-bottom: 24px;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 .card {
   min-width: 0;
   background: var(--color-bg-surface);
   border: 1px solid var(--color-border-default);
-  border-radius: 12px;
-  padding: 24px;
+  border-radius: 6px;
+  padding: 12px;
 }
 .card header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 22px;
+  margin-bottom: 12px;
 }
 .card h2 {
-  margin: 0 0 8px;
-  font-size: 16px;
+  margin: 0 0 4px;
+  font-size: 15px;
 }
 .card p {
   color: var(--color-text-muted);
@@ -30,7 +30,7 @@
 }
 .trend,
 .business {
-  grid-column: 1/-1;
+  min-width: 0;
 }
 .segment {
   display: flex;
@@ -58,12 +58,12 @@
 .lineChart {
   display: block;
   width: 100%;
-  min-width: 440px;
-  max-height: 310px;
+  min-width: 360px;
+  max-height: 250px;
 }
 .axis {
   fill: var(--color-text-muted);
-  font-size: 10px;
+  font-size: 16px;
 }
 .gridLine {
   stroke: var(--color-border-subtle);
@@ -78,10 +78,10 @@
 .donutLayout {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 12px;
 }
 .donut {
-  width: 170px;
+  width: 135px;
   flex-shrink: 0;
 }
 .total {
@@ -91,7 +91,7 @@
 }
 .legend {
   display: grid;
-  gap: 18px;
+  gap: 12px;
   flex: 1;
 }
 .legend button {
@@ -231,9 +231,9 @@
 }
 .placeholder {
   border: 1px solid var(--color-border-default);
-  border-radius: 12px;
+  border-radius: 6px;
   padding: 28px;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
   color: var(--color-text-muted);
   background: var(--color-bg-surface);
 }
@@ -245,7 +245,7 @@
   outline: 2px solid var(--color-blue-hover);
   outline-offset: 4px;
 }
-@media (max-width: 1100px) {
+@media (max-width: 1050px) {
   .charts {
     grid-template-columns: 1fr;
   }
@@ -258,7 +258,7 @@
 }
 @media (max-width: 640px) {
   .card {
-    padding: 18px;
+    padding: 12px;
   }
   .card header {
     flex-wrap: wrap;
@@ -281,3 +281,5 @@
     min-width: 70px;
   }
 }
+
+.card header { flex-wrap: wrap; gap: 8px; }

@@ -1,3 +1,4 @@
+import { addWorkbenchSamples } from '../fixtures/workbenchSeed';
 import { DemoClock } from '../fixtures/clock';
 import { createSeedState, DEFAULT_DEMO_SEED } from '../fixtures/seed';
 import type { DemoState } from '../fixtures/types';
@@ -14,6 +15,8 @@ export interface DemoRepositoryOptions {
   seed?: number;
   clock?: DemoClock;
   storage?: DemoStorage;
+  /** Full linked workbench dataset; the small replay fixtures remain the default. */
+  workbenchSamples?: boolean;
 }
 
 function restoreRows<Row>(current: Row[], seeded: Row[], belongs: (row: Row) => boolean): Row[] {
@@ -23,6 +26,7 @@ function restoreRows<Row>(current: Row[], seeded: Row[], belongs: (row: Row) => 
 export class DemoRepository {
   readonly clock: DemoClock;
   private readonly seed: number;
+  private readonly workbenchSamples: boolean;
   private readonly initialTime: string;
   private readonly storage?: DemoStorage;
   private readonly listeners = new Set<() => void>();
@@ -30,10 +34,12 @@ export class DemoRepository {
 
   constructor(options: DemoRepositoryOptions = {}) {
     this.seed = options.seed ?? DEFAULT_DEMO_SEED;
+    this.workbenchSamples = options.workbenchSamples ?? false;
     this.clock = options.clock ?? new DemoClock();
     this.initialTime = this.clock.now();
     this.storage = options.storage;
     this.state = this.load() ?? createSeedState(this.seed, this.clock);
+    if (this.workbenchSamples && !this.state.workbenchSampleVersion) addWorkbenchSamples(this.state, this.initialTime);
   }
 
   snapshot(): DemoState {
@@ -56,6 +62,7 @@ export class DemoRepository {
     this.storage?.removeItem(DEMO_STORAGE_KEY);
     this.clock.reset();
     this.state = createSeedState(this.seed, this.clock);
+    if (this.workbenchSamples) addWorkbenchSamples(this.state, this.initialTime);
     this.notify();
     return this.snapshot();
   }

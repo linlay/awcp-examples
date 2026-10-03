@@ -1273,6 +1273,7 @@ export interface AttachmentJob {
 }
 
 export interface DemoState {
+  workbenchSampleVersion?: 1;
   schemaVersion: 24;
   seed: number;
   company: DemoCompany;

@@ -71,11 +71,11 @@
 
 .navContainer {
   flex: 1;
-  padding: 16px 8px;
+  padding: 8px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 2px;
 }
 
 .navGroupTitle {
@@ -84,15 +84,15 @@
   color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 1px;
-  padding: 12px 12px 4px;
+  padding: 10px 12px 6px;
 }
 
 .navItem {
   display: flex;
   align-items: center;
   gap: 12px;
-  height: 42px;
-  padding: 0 12px;
+  min-height: 42px;
+  padding: 7px 12px;
   border-radius: 8px;
   color: var(--color-text-secondary);
   text-decoration: none;
@@ -181,8 +181,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
-  padding: 0 28px;
+  height: 52px;
+  padding: 0 16px;
   background: var(--color-bg-header);
   border-bottom: 1px solid var(--color-border-subtle);
   position: sticky;
@@ -221,8 +221,9 @@
 
 .headerRight {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 18px;
+  gap: 10px;
 }
 
 .statusIndicator {
@@ -290,8 +291,7 @@
 /* Main Content Body */
 .mainContent {
   flex: 1;
-  padding: 24px 32px 60px;
-  max-width: 1440px;
+  padding: 16px 16px 32px;
   width: 100%;
   margin: 0 auto;
 }
@@ -303,3 +303,12 @@
 .preferences button:focus-visible, .preferences select:focus-visible { outline: 2px solid var(--color-blue-primary); outline-offset: 2px; }
 @media (max-width: 1150px) { .statusIndicator { display: none; } .headerRight { gap: 8px; } }
 @media (max-width: 760px) { .sidebar { width: 68px; } .brandInfo, .navItem > span:not(.navItemIcon), .navGroupTitle { display: none; } .header { padding: 8px 12px; height: auto; min-height: 64px; flex-wrap: wrap; gap: 8px; } .mainContent { padding: 20px 14px; } }
+
+.navLabel { display: grid; gap: 3px; min-width: 0; white-space: normal; line-height: 1.35; }
+.navLabel > span { font-size: 14px; }
+.navLabel small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; font-weight: 400; color: var(--color-text-secondary); }
+.navItem:focus-visible, .siteNavigation:focus-visible { outline: 2px solid var(--color-blue-primary); outline-offset: 2px; }
+.siteNavigation { display: inline-flex; align-items: center; gap: 6px; color: var(--color-text-secondary); font-size: 13px; text-decoration: none; white-space: nowrap; padding: 6px; }
+.siteNavigation:hover { color: var(--color-blue-hover); }
+.sidebarHeader { flex-shrink: 0; }
+@media (max-width: 760px) { .navItem .navLabel { display: none; } .headerLeft { min-width: 0; } .breadcrumb { flex-wrap: wrap; } }

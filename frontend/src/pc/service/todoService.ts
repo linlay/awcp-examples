@@ -105,6 +105,13 @@ export class TodoService {
     return { date, actorId: actor.id, items };
   }
 
+  history(input: TodoQueryInput): Todo[] {
+    const state = this.repository.snapshot();
+    return visibleTodos(state, validActor(state, input.actorId))
+      .filter((todo) => todo.status === 'done')
+      .sort((left, right) => (right.completedAt ?? right.dueAt).localeCompare(left.completedAt ?? left.dueAt) || left.id.localeCompare(right.id));
+  }
+
   validateComplete(input: TodoCompleteInput): AwcpFieldError[] {
     return completeErrors(this.repository.snapshot(), input);
   }
