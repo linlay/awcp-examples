@@ -12,6 +12,8 @@ type Session struct {
 	Employees      []Employee   `json:"employees"`
 	Departments    []Department `json:"departments"`
 	RecordCount    int          `json:"recordCount"`
+	MCPAvailable   bool         `json:"mcpAvailable"`
+	MCPConnectURL  string       `json:"mcpConnectUrl,omitempty"`
 }
 type Employee struct {
 	ID           string   `json:"id"`

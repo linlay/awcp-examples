@@ -16,11 +16,12 @@ type Config struct {
 	Origins      []string
 	SecureCookie bool
 	Profile      string
+	MCP          MCP
 }
 
 // Load uses process environment over code defaults. .env is an operator input, not auto-loaded.
 func Load() (Config, error) {
-	c := Config{Address: value("AWCP_LISTEN", "127.0.0.1:2181"), DatabasePath: value("AWCP_DATABASE", "../data/awcp.sqlite"), StaticDir: value("AWCP_STATIC_DIR", "../frontend/dist"), Profile: value("AWCP_DATA_PROFILE", "standard")}
+	c := Config{Address: value("AWCP_LISTEN", "127.0.0.1:2181"), DatabasePath: value("AWCP_DATABASE", "../data/awcp.sqlite"), StaticDir: value("AWCP_STATIC_DIR", "../frontend/dist"), Profile: value("AWCP_DATA_PROFILE", "acceptance")}
 	var err error
 	c.SecureCookie, err = strconv.ParseBool(value("AWCP_SECURE_COOKIE", "false"))
 	if err != nil {
@@ -45,6 +46,9 @@ func Load() (Config, error) {
 		return c, err
 	}
 	c.StaticDir, err = filepath.Abs(c.StaticDir)
+	if err == nil {
+		c.MCP, err = loadMCP(c.Origins)
+	}
 	return c, err
 }
 func value(name, fallback string) string {

@@ -11,13 +11,17 @@ import (
 const metricsSQL = `count(*),coalesce(sum(amount_cents),0),coalesce(sum(status='approved'),0),coalesce(sum(overdue),0),avg(duration_hours)`
 
 func (s *Store) Report(ctx context.Context, hash, generation string, f model.ReportFilter, now time.Time) (model.Report, error) {
+	return s.ReportFor(ctx, model.Access{CookieHash: hash}, generation, f, now)
+}
+
+func (s *Store) ReportFor(ctx context.Context, access model.Access, generation string, f model.ReportFilter, now time.Time) (model.Report, error) {
 	result := model.Report{Generation: generation, Filter: f, Groups: []model.ReportGroup{}, Items: []model.ReportEntry{}}
 	tx, err := s.DB.BeginTx(ctx, nil)
 	if err != nil {
 		return result, err
 	}
 	defer tx.Rollback()
-	session, err := loadSession(ctx, tx, hash, now)
+	session, err := loadAccess(ctx, tx, access, now)
 	if err != nil {
 		return result, err
 	}

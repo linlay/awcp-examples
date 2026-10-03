@@ -17,6 +17,8 @@ export interface DemoSession {
   employees: SessionEmployee[];
   departments: { id: string; name: string }[];
   recordCount: number;
+  mcpAvailable?: boolean;
+  mcpConnectUrl?: string;
 }
 export interface ApiFailure {
   code: string;

@@ -11,7 +11,12 @@ services:
       AWCP_STATIC_DIR: /app/web
       AWCP_ALLOWED_ORIGINS: https://awcp-site.zenmind.cc
       AWCP_SECURE_COOKIE: "true"
-      AWCP_DATA_PROFILE: standard
+      AWCP_DATA_PROFILE: ${AWCP_DATA_PROFILE:-acceptance}
+      AWCP_MCP_ENABLED: ${AWCP_MCP_ENABLED:-false}
+      AWCP_MCP_PUBLIC_URL: https://awcp-site.zenmind.cc/mcp
+      AWCP_MCP_USERNAME: ${AWCP_MCP_USERNAME:-demo}
+      AWCP_MCP_PASSWORD: ${AWCP_MCP_PASSWORD:-}
+      AWCP_MCP_RESET_ENABLED: ${AWCP_MCP_RESET_ENABLED:-false}
     volumes:
       - ./data:/data
     read_only: true

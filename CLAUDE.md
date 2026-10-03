@@ -18,6 +18,8 @@
 - `backend/internal/service`：会话令牌、请求校验和服务编排。
 - `backend/internal/repository`：SQLite、事务、种子、分页与聚合。
 - `backend/internal/model`：后端模型与受控错误。
+- `backend/internal/authn`：小型内置 OAuth 的客户端、授权码、Token 哈希存储及校验。
+- `backend/internal/mcpserver`：官方 SDK、按 Scope 注册的工具及浏览器 PKCE/Token 入口。
 - `backend/migrations`：编译进程序的版本化 SQL，带应用校验和。
 - `contracts/openapi.json`：当前 HTTP 接口合同。
 - `plans/fullstack`：当前改造计划；其他旧计划保留为历史。
@@ -27,6 +29,8 @@
 浏览器 UI / AWCP Action → 前端 service / API → Go handler → service → repository → SQLite。
 
 上面的链路目前只接通会话、重置、历史分析。21 个 O/S 业务场景及 P03/P06/P07 的业务副作用仍走原浏览器 service；禁止把它们视作已服务端化。`sessionRepository.ts` 是迁移期隔离适配，后续按业务领域删除其调用。
+
+MCP 是小型安装验证 demo，授权内置于同一个 Go 进程和 SQLite，不引入外部身份平台、缓存或队列。默认本地 demo/demo，公网必须自定义密码。Bearer Token 哈希持久化并逐请求校验，支持发现、授权码 + PKCE、公共客户端注册和撤销。当前只暴露已有 Go Service 的基础工具；本次不扩展全量业务迁移。实施范围见 `plans/mcp/README.md`。
 
 ## 会话和数据
 

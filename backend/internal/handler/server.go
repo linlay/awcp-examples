@@ -14,6 +14,7 @@ import (
 	"strings"
 
 	"awcp-examples/backend/internal/config"
+	"awcp-examples/backend/internal/mcpserver"
 	"awcp-examples/backend/internal/model"
 	"awcp-examples/backend/internal/repository"
 	"awcp-examples/backend/internal/service"
@@ -36,6 +37,22 @@ func New(sessions *service.Sessions, c config.Config, logger *slog.Logger) http.
 	mux.HandleFunc("GET /api/v1/session", s.session)
 	mux.HandleFunc("POST /api/v1/session/reset", s.reset)
 	mux.HandleFunc("POST /api/v1/reports/query", s.report)
+	if c.MCP.Enabled {
+		mcpHandler := mcpserver.New(c.MCP, c.Origins, sessions, logger)
+		portal := mcpserver.NewPortal(mcpHandler)
+		mux.Handle("/mcp", mcpHandler)
+		mux.HandleFunc("/.well-known/oauth-protected-resource", mcpHandler.Metadata)
+		mux.HandleFunc("/.well-known/oauth-protected-resource/mcp", mcpHandler.Metadata)
+		mux.HandleFunc("GET /api/v1/mcp/connect", portal.Index)
+		mux.HandleFunc("POST /api/v1/mcp/connect/start", portal.Start)
+		mux.HandleFunc("GET /.well-known/oauth-authorization-server", mcpHandler.AuthorizationMetadata)
+		mux.HandleFunc("GET /api/v1/mcp/oauth/authorize", portal.Authorize)
+		mux.HandleFunc("POST /api/v1/mcp/oauth/authorize", portal.Authorize)
+		mux.HandleFunc("/oauth/register", mcpHandler.OAuthEndpoint(mcpHandler.Register))
+		mux.HandleFunc("/oauth/token", mcpHandler.OAuthEndpoint(mcpHandler.Token))
+		mux.HandleFunc("/oauth/revoke", mcpHandler.OAuthEndpoint(mcpHandler.Revoke))
+		mux.HandleFunc("POST /api/v1/mcp/connect/disconnect", portal.Disconnect)
+	}
 	mux.HandleFunc("/", s.static)
 	return s.protect(mux)
 }
@@ -51,7 +68,10 @@ func (s *Server) protect(next http.Handler) http.Handler {
 			w.Header().Set("Cache-Control", "no-store")
 			origin := r.Header.Get("Origin")
 			unsafe := r.Method != "GET" && r.Method != "HEAD"
-			if r.Header.Get("Sec-Fetch-Site") == "cross-site" || origin != "" && !origins[origin] || unsafe && !origins[origin] {
+			// External clients navigate here for login. Grant validation precedes
+			// the form; POST still requires same-origin and a cookie-bound nonce.
+			callback := s.Config.MCP.Enabled && r.Method == "GET" && r.URL.Path == "/api/v1/mcp/oauth/authorize"
+			if !callback && (r.Header.Get("Sec-Fetch-Site") == "cross-site" || origin != "" && !origins[origin] || unsafe && !origins[origin]) {
 				s.fail(w, r, model.Failure(403, "request.origin", "请求来源不被允许。"))
 				return
 			}
@@ -76,6 +96,10 @@ func (s *Server) session(w http.ResponseWriter, r *http.Request) {
 		secret = token(r)
 	}
 	s.renewCookie(w, secret)
+	view.MCPAvailable = s.Config.MCP.Enabled
+	if s.Config.MCP.Enabled {
+		view.MCPConnectURL = s.Config.MCP.ConnectURL()
+	}
 	respond(w, 200, view)
 }
 func (s *Server) reset(w http.ResponseWriter, r *http.Request) {
@@ -92,6 +116,10 @@ func (s *Server) reset(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	s.renewCookie(w, token(r))
+	view.MCPAvailable = s.Config.MCP.Enabled
+	if s.Config.MCP.Enabled {
+		view.MCPConnectURL = s.Config.MCP.ConnectURL()
+	}
 	respond(w, 200, view)
 }
 func (s *Server) report(w http.ResponseWriter, r *http.Request) {

@@ -1,0 +1,1221 @@
+{
+  "generatedBy": "scripts/generateMcpCatalog.mjs",
+  "note": "Static Action inventory; not an executable registry. Dynamic browser Actions require separate review.",
+  "scenarios": [
+    {
+      "id": "O01",
+      "title": "工作台与待办",
+      "group": "office",
+      "backendStatus": "browser-only"
+    },
+    {
+      "id": "O02",
+      "title": "人员与组织",
+      "group": "office",
+      "backendStatus": "browser-only"
+    },
+    {
+      "id": "O03",
+      "title": "公告与通知",
+      "group": "office",
+      "backendStatus": "browser-only"
+    },
+    {
+      "id": "O04",
+      "title": "邮件与内部消息",
+      "group": "office",
+      "backendStatus": "browser-only"
+    },
+    {
+      "id": "O05",
+      "title": "日程与会议",
+      "group": "office",
+      "backendStatus": "browser-only"
+    },
+    {
+      "id": "O06",
+      "title": "文档与知识库",
+      "group": "office",
+      "backendStatus": "browser-only"
+    },
+    {
+      "id": "O07",
+      "title": "表格与数据处理",
+      "group": "office",
+      "backendStatus": "browser-only"
+    },
+    {
+      "id": "O08",
+      "title": "通用审批",
+      "group": "office",
+      "backendStatus": "browser-only"
+    },
+    {
+      "id": "O09",
+      "title": "差旅与费用",
+      "group": "office",
+      "backendStatus": "browser-only"
+    },
+    {
+      "id": "O10",
+      "title": "人事与考勤",
+      "group": "office",
+      "backendStatus": "browser-only"
+    },
+    {
+      "id": "O11",
+      "title": "采购与供应商",
+      "group": "office",
+      "backendStatus": "browser-only"
+    },
+    {
+      "id": "O12",
+      "title": "合同与用印",
+      "group": "office",
+      "backendStatus": "browser-only"
+    },
+    {
+      "id": "O13",
+      "title": "资产与行政",
+      "group": "office",
+      "backendStatus": "browser-only"
+    },
+    {
+      "id": "O14",
+      "title": "项目与任务协作",
+      "group": "office",
+      "backendStatus": "browser-only"
+    },
+    {
+      "id": "O15",
+      "title": "IT 服务与权限",
+      "group": "office",
+      "backendStatus": "browser-only"
+    },
+    {
+      "id": "O16",
+      "title": "统计报表与档案",
+      "group": "office",
+      "backendStatus": "browser-only"
+    },
+    {
+      "id": "S01",
+      "title": "客户资料审核与适当性匹配",
+      "group": "securities",
+      "backendStatus": "browser-only"
+    },
+    {
+      "id": "S02",
+      "title": "研报编制、审阅与发布",
+      "group": "securities",
+      "backendStatus": "browser-only"
+    },
+    {
+      "id": "S03",
+      "title": "投行立项与尽调协作",
+      "group": "securities",
+      "backendStatus": "browser-only"
+    },
+    {
+      "id": "S04",
+      "title": "风险预警调查与处置",
+      "group": "securities",
+      "backendStatus": "browser-only"
+    },
+    {
+      "id": "S05",
+      "title": "机构客户服务与路演协同",
+      "group": "securities",
+      "backendStatus": "browser-only"
+    },
+    {
+      "id": "P01",
+      "title": "两层发现与标准调用",
+      "group": "protocol",
+      "backendStatus": "browser-protocol-only"
+    },
+    {
+      "id": "P02",
+      "title": "Schema 与字段错误",
+      "group": "protocol",
+      "backendStatus": "browser-protocol-only"
+    },
+    {
+      "id": "P03",
+      "title": "只读动态校验",
+      "group": "protocol",
+      "backendStatus": "browser-protocol-only"
+    },
+    {
+      "id": "P04",
+      "title": "revision 与合同更新",
+      "group": "protocol",
+      "backendStatus": "browser-protocol-only"
+    },
+    {
+      "id": "P05",
+      "title": "生命周期与多实例",
+      "group": "protocol",
+      "backendStatus": "browser-protocol-only"
+    },
+    {
+      "id": "P06",
+      "title": "异步取消与迟到结果",
+      "group": "protocol",
+      "backendStatus": "browser-protocol-only"
+    },
+    {
+      "id": "P07",
+      "title": "重复请求与业务幂等",
+      "group": "protocol",
+      "backendStatus": "browser-protocol-only"
+    },
+    {
+      "id": "P08",
+      "title": "受控错误与异常归一",
+      "group": "protocol",
+      "backendStatus": "browser-protocol-only"
+    },
+    {
+      "id": "P09",
+      "title": "动态合同与最新状态",
+      "group": "protocol",
+      "backendStatus": "browser-protocol-only"
+    },
+    {
+      "id": "P10",
+      "title": "容量与隔离",
+      "group": "protocol",
+      "backendStatus": "browser-protocol-only"
+    }
+  ],
+  "actions": [
+    {
+      "action": "demo.analysis.query",
+      "tool": "demo_analysis_query",
+      "status": "implemented",
+      "sources": [
+        "frontend/src/pc/pages/AnalysisPage.tsx"
+      ]
+    },
+    {
+      "action": "office.access.request",
+      "tool": "office_access_request",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/OfficeNewPage.tsx"
+      ]
+    },
+    {
+      "action": "office.admin.read",
+      "tool": "office_admin_read",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O13AdminPage.tsx"
+      ]
+    },
+    {
+      "action": "office.approval.approve",
+      "tool": "office_approval_approve",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O08ApprovalPage.tsx"
+      ]
+    },
+    {
+      "action": "office.approval.read",
+      "tool": "office_approval_read",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O08ApprovalPage.tsx"
+      ]
+    },
+    {
+      "action": "office.approval.return",
+      "tool": "office_approval_return",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O08ApprovalPage.tsx"
+      ]
+    },
+    {
+      "action": "office.approval.submit",
+      "tool": "office_approval_submit",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O08ApprovalNewPage.tsx",
+        "frontend/src/pc/pages/O08ApprovalPage.tsx"
+      ]
+    },
+    {
+      "action": "office.approval.withdraw",
+      "tool": "office_approval_withdraw",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O08ApprovalPage.tsx"
+      ]
+    },
+    {
+      "action": "office.archive.save",
+      "tool": "office_archive_save",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O16ReportPage.tsx"
+      ]
+    },
+    {
+      "action": "office.archive.search",
+      "tool": "office_archive_search",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O16ReportPage.tsx"
+      ]
+    },
+    {
+      "action": "office.asset.assign",
+      "tool": "office_asset_assign",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O13AdminPage.tsx"
+      ]
+    },
+    {
+      "action": "office.asset.return",
+      "tool": "office_asset_return",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O13AdminPage.tsx"
+      ]
+    },
+    {
+      "action": "office.attendance.correct",
+      "tool": "office_attendance_correct",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O10HrNewPage.tsx"
+      ]
+    },
+    {
+      "action": "office.contract.read",
+      "tool": "office_contract_read",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O12ContractPage.tsx"
+      ]
+    },
+    {
+      "action": "office.contract.register",
+      "tool": "office_contract_register",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/OfficeNewPage.tsx"
+      ]
+    },
+    {
+      "action": "office.directory.query",
+      "tool": "office_directory_query",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O02DirectoryPage.tsx"
+      ]
+    },
+    {
+      "action": "office.discussion.create",
+      "tool": "office_discussion_create",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/OfficeNewPage.tsx"
+      ]
+    },
+    {
+      "action": "office.discussion.read",
+      "tool": "office_discussion_read",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O04CommunicationPage.tsx"
+      ]
+    },
+    {
+      "action": "office.document.archive",
+      "tool": "office_document_archive",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O06DocumentPage.tsx"
+      ]
+    },
+    {
+      "action": "office.document.draft.patch",
+      "tool": "office_document_draft_patch",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O06DocumentPage.tsx"
+      ]
+    },
+    {
+      "action": "office.document.query",
+      "tool": "office_document_query",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O06DocumentPage.tsx"
+      ]
+    },
+    {
+      "action": "office.document.read",
+      "tool": "office_document_read",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O06DocumentPage.tsx"
+      ]
+    },
+    {
+      "action": "office.document.revision.approve",
+      "tool": "office_document_revision_approve",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O06DocumentPage.tsx"
+      ]
+    },
+    {
+      "action": "office.expense.check",
+      "tool": "office_expense_check",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/components/ExpenseCheckForm.tsx"
+      ]
+    },
+    {
+      "action": "office.expense.correct",
+      "tool": "office_expense_correct",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/components/ExpenseFlowPanel.tsx"
+      ]
+    },
+    {
+      "action": "office.expense.read",
+      "tool": "office_expense_read",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/components/ExpenseFlowPanel.tsx"
+      ]
+    },
+    {
+      "action": "office.expense.review",
+      "tool": "office_expense_review",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/components/ExpenseFlowPanel.tsx"
+      ]
+    },
+    {
+      "action": "office.expense.submit",
+      "tool": "office_expense_submit",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/components/ExpenseFlowPanel.tsx"
+      ]
+    },
+    {
+      "action": "office.group.read",
+      "tool": "office_group_read",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O02DirectoryPage.tsx"
+      ]
+    },
+    {
+      "action": "office.group.save",
+      "tool": "office_group_save",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O02DirectoryPage.tsx"
+      ]
+    },
+    {
+      "action": "office.hr.read",
+      "tool": "office_hr_read",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O10HrPage.tsx"
+      ]
+    },
+    {
+      "action": "office.it.read",
+      "tool": "office_it_read",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O15ItPage.tsx"
+      ]
+    },
+    {
+      "action": "office.leave.submit",
+      "tool": "office_leave_submit",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O10HrNewPage.tsx"
+      ]
+    },
+    {
+      "action": "office.mail.archive",
+      "tool": "office_mail_archive",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O04CommunicationPage.tsx"
+      ]
+    },
+    {
+      "action": "office.mail.query",
+      "tool": "office_mail_query",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O04CommunicationPage.tsx"
+      ]
+    },
+    {
+      "action": "office.mail.read",
+      "tool": "office_mail_read",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O04CommunicationPage.tsx"
+      ]
+    },
+    {
+      "action": "office.mail.reply-draft",
+      "tool": "office_mail_reply_draft",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O04CommunicationPage.tsx"
+      ]
+    },
+    {
+      "action": "office.mail.send",
+      "tool": "office_mail_send",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O04CommunicationPage.tsx"
+      ]
+    },
+    {
+      "action": "office.meeting.availability",
+      "tool": "office_meeting_availability",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O05MeetingPage.tsx",
+        "frontend/src/pc/pages/OfficeNewPage.tsx"
+      ]
+    },
+    {
+      "action": "office.meeting.minutes.save",
+      "tool": "office_meeting_minutes_save",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O05MeetingPage.tsx"
+      ]
+    },
+    {
+      "action": "office.meeting.read",
+      "tool": "office_meeting_read",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O05MeetingPage.tsx"
+      ]
+    },
+    {
+      "action": "office.meeting.reschedule",
+      "tool": "office_meeting_reschedule",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O05MeetingPage.tsx"
+      ]
+    },
+    {
+      "action": "office.meeting.reserve",
+      "tool": "office_meeting_reserve",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/OfficeNewPage.tsx"
+      ]
+    },
+    {
+      "action": "office.milestone.upsert",
+      "tool": "office_milestone_upsert",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O14ProjectPage.tsx"
+      ]
+    },
+    {
+      "action": "office.notice.draft",
+      "tool": "office_notice_draft",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O03NoticeNewPage.tsx"
+      ]
+    },
+    {
+      "action": "office.notice.publish",
+      "tool": "office_notice_publish",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O03NoticePage.tsx"
+      ]
+    },
+    {
+      "action": "office.notice.read",
+      "tool": "office_notice_read",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O03NoticePage.tsx"
+      ]
+    },
+    {
+      "action": "office.notice.recipients.replace",
+      "tool": "office_notice_recipients_replace",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O03NoticePage.tsx"
+      ]
+    },
+    {
+      "action": "office.notice.remind",
+      "tool": "office_notice_remind",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O03NoticePage.tsx"
+      ]
+    },
+    {
+      "action": "office.notice.unread",
+      "tool": "office_notice_unread",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O03NoticePage.tsx"
+      ]
+    },
+    {
+      "action": "office.personnel.process",
+      "tool": "office_personnel_process",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O10HrPage.tsx"
+      ]
+    },
+    {
+      "action": "office.procurement.compare",
+      "tool": "office_procurement_compare",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O11ProcurementPage.tsx"
+      ]
+    },
+    {
+      "action": "office.procurement.create",
+      "tool": "office_procurement_create",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O11ProcurementNewPage.tsx"
+      ]
+    },
+    {
+      "action": "office.procurement.read",
+      "tool": "office_procurement_read",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O11ProcurementPage.tsx"
+      ]
+    },
+    {
+      "action": "office.project.create",
+      "tool": "office_project_create",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/OfficeNewPage.tsx"
+      ]
+    },
+    {
+      "action": "office.project.read",
+      "tool": "office_project_read",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O14ProjectPage.tsx"
+      ]
+    },
+    {
+      "action": "office.receipt.accept",
+      "tool": "office_receipt_accept",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O11ProcurementPage.tsx"
+      ]
+    },
+    {
+      "action": "office.renewal.create",
+      "tool": "office_renewal_create",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O12ContractPage.tsx"
+      ]
+    },
+    {
+      "action": "office.repair.accept",
+      "tool": "office_repair_accept",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O13AdminPage.tsx"
+      ]
+    },
+    {
+      "action": "office.repair.resolve",
+      "tool": "office_repair_resolve",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O13AdminPage.tsx"
+      ]
+    },
+    {
+      "action": "office.report.details.query",
+      "tool": "office_report_details_query",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O16ReportPage.tsx"
+      ]
+    },
+    {
+      "action": "office.report.generate",
+      "tool": "office_report_generate",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/OfficeNewPage.tsx"
+      ]
+    },
+    {
+      "action": "office.report.read",
+      "tool": "office_report_read",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O16ReportPage.tsx"
+      ]
+    },
+    {
+      "action": "office.resource.reserve",
+      "tool": "office_resource_reserve",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/OfficeNewPage.tsx"
+      ]
+    },
+    {
+      "action": "office.seal.execute",
+      "tool": "office_seal_execute",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O12ContractPage.tsx"
+      ]
+    },
+    {
+      "action": "office.seal.review",
+      "tool": "office_seal_review",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O12ContractPage.tsx"
+      ]
+    },
+    {
+      "action": "office.seal.submit",
+      "tool": "office_seal_submit",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O12ContractPage.tsx"
+      ]
+    },
+    {
+      "action": "office.sheet.export.start",
+      "tool": "office_sheet_export_start",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O07SheetPage.tsx"
+      ]
+    },
+    {
+      "action": "office.sheet.import.check",
+      "tool": "office_sheet_import_check",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O07SheetPage.tsx"
+      ]
+    },
+    {
+      "action": "office.sheet.query",
+      "tool": "office_sheet_query",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O07SheetPage.tsx"
+      ]
+    },
+    {
+      "action": "office.sheet.rows.patch",
+      "tool": "office_sheet_rows_patch",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O07SheetPage.tsx"
+      ]
+    },
+    {
+      "action": "office.supplier.review",
+      "tool": "office_supplier_review",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O11ProcurementPage.tsx"
+      ]
+    },
+    {
+      "action": "office.task.create",
+      "tool": "office_task_create",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O04CommunicationPage.tsx",
+        "frontend/src/pc/pages/O14ProjectPage.tsx"
+      ]
+    },
+    {
+      "action": "office.task.update",
+      "tool": "office_task_update",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O14ProjectPage.tsx"
+      ]
+    },
+    {
+      "action": "office.team.read",
+      "tool": "office_team_read",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O02DirectoryPage.tsx"
+      ]
+    },
+    {
+      "action": "office.team.replace",
+      "tool": "office_team_replace",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O02DirectoryPage.tsx"
+      ]
+    },
+    {
+      "action": "office.ticket.assign",
+      "tool": "office_ticket_assign",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O15ItPage.tsx"
+      ]
+    },
+    {
+      "action": "office.ticket.close",
+      "tool": "office_ticket_close",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O15ItPage.tsx"
+      ]
+    },
+    {
+      "action": "office.ticket.resolve",
+      "tool": "office_ticket_resolve",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O15ItPage.tsx"
+      ]
+    },
+    {
+      "action": "office.todo.complete",
+      "tool": "office_todo_complete",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O01TodoPage.tsx"
+      ]
+    },
+    {
+      "action": "office.todo.query",
+      "tool": "office_todo_query",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O01TodoPage.tsx"
+      ]
+    },
+    {
+      "action": "office.todo.summarize",
+      "tool": "office_todo_summarize",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O01TodoPage.tsx"
+      ]
+    },
+    {
+      "action": "office.training.complete",
+      "tool": "office_training_complete",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O10HrPage.tsx"
+      ]
+    },
+    {
+      "action": "office.training.enroll",
+      "tool": "office_training_enroll",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O10HrPage.tsx"
+      ]
+    },
+    {
+      "action": "office.training.query",
+      "tool": "office_training_query",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O10HrPage.tsx"
+      ]
+    },
+    {
+      "action": "office.travel.submit",
+      "tool": "office_travel_submit",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/components/TravelSubmitForm.tsx"
+      ]
+    },
+    {
+      "action": "office.weekly-report.generate",
+      "tool": "office_weekly_report_generate",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/O14ProjectPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.alert.assign",
+      "tool": "securities_alert_assign",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S04RiskPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.alert.close",
+      "tool": "securities_alert_close",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S04RiskPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.alert.evidence.attach",
+      "tool": "securities_alert_evidence_attach",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S04RiskPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.alert.query",
+      "tool": "securities_alert_query",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S04RiskPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.alert.read",
+      "tool": "securities_alert_read",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S04RiskPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.alert.review",
+      "tool": "securities_alert_review",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S04RiskPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.client.archive",
+      "tool": "securities_client_archive",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S01ClientPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.client.patch",
+      "tool": "securities_client_patch",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S01ClientPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.client.read",
+      "tool": "securities_client_read",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S01ClientPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.diligence.assign",
+      "tool": "securities_diligence_assign",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S03IbProjectPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.diligence.attach",
+      "tool": "securities_diligence_attach",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S03IbProjectPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.finding.resolve",
+      "tool": "securities_finding_resolve",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S03IbProjectPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.ib-project.archive",
+      "tool": "securities_ib_project_archive",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S03IbProjectPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.ib-project.create",
+      "tool": "securities_ib_project_create",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S03IbProjectNewPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.ib-project.read",
+      "tool": "securities_ib_project_read",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S03IbProjectPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.ib-project.review",
+      "tool": "securities_ib_project_review",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S03IbProjectPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.ib-project.submit",
+      "tool": "securities_ib_project_submit",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S03IbProjectPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.institution.query",
+      "tool": "securities_institution_query",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S05InstitutionPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.investigation.draft.save",
+      "tool": "securities_investigation_draft_save",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S04RiskPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.investigation.record",
+      "tool": "securities_investigation_record",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S04RiskPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.material-package.create",
+      "tool": "securities_material_package_create",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S05InstitutionPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.quality.submit",
+      "tool": "securities_quality_submit",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S03IbProjectPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.research.archive",
+      "tool": "securities_research_archive",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S02ResearchPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.research.check",
+      "tool": "securities_research_check",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S02ResearchPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.research.create",
+      "tool": "securities_research_create",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S02ResearchNewPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.research.patch",
+      "tool": "securities_research_patch",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S02ResearchPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.research.publish",
+      "tool": "securities_research_publish",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S02ResearchPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.research.read",
+      "tool": "securities_research_read",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S02ResearchPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.research.review",
+      "tool": "securities_research_review",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S02ResearchPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.research.submit-review",
+      "tool": "securities_research_submit_review",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S02ResearchPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.review.decide",
+      "tool": "securities_review_decide",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S01ClientPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.review.submit",
+      "tool": "securities_review_submit",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S01ClientPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.roadshow.invite",
+      "tool": "securities_roadshow_invite",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S05InstitutionPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.roadshow.minutes.record",
+      "tool": "securities_roadshow_minutes_record",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S05InstitutionPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.roadshow.reserve",
+      "tool": "securities_roadshow_reserve",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S05InstitutionPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.service.entitlement-check",
+      "tool": "securities_service_entitlement_check",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S05InstitutionPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.service.followup",
+      "tool": "securities_service_followup",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S05InstitutionPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.service.need.revise",
+      "tool": "securities_service_need_revise",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S05InstitutionPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.service.summary",
+      "tool": "securities_service_summary",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S05InstitutionPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.suitability.evaluate",
+      "tool": "securities_suitability_evaluate",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S01ClientPage.tsx"
+      ]
+    },
+    {
+      "action": "securities.suitability.match",
+      "tool": "securities_suitability_match",
+      "status": "pending-domain-migration",
+      "sources": [
+        "frontend/src/pc/pages/S01ClientPage.tsx"
+      ]
+    }
+  ]
+}

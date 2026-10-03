@@ -361,6 +361,13 @@
           },
           "recordCount": {
             "type": "integer"
+          },
+          "mcpAvailable": {
+            "type": "boolean"
+          },
+          "mcpConnectUrl": {
+            "type": "string",
+            "format": "uri"
           }
         },
         "required": [

@@ -3,6 +3,7 @@ package config
 import "testing"
 
 func TestConfigRejectsInvalidOriginAndSecureHTTP(t *testing.T) {
+	t.Setenv("AWCP_MCP_ENABLED", "false")
 	for _, origin := range []string{"*", "https://example.test/path", "https://user:password@example.test", "null"} {
 		t.Setenv("AWCP_ALLOWED_ORIGINS", origin)
 		if _, err := Load(); err == nil {
