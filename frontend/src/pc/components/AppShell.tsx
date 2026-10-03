@@ -24,6 +24,7 @@ import styles from './AppShell.module.css';
 import { AppearanceControls } from './AppearanceControls';
 import { SessionMenu } from './SessionMenu';
 import { McpConnection } from './McpConnection';
+import { RealtimeControls } from './RealtimeControls';
 
 export interface AppLinkProps {
   href: string;
@@ -229,6 +230,7 @@ export function AppShell({ children, navigate }: AppShellProps): ReactElement {
             </AppLink>
 
             <McpConnection />
+            <RealtimeControls />
             <AppearanceControls />
             <SessionMenu />
           </div>

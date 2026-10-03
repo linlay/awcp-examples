@@ -42,7 +42,7 @@ func (s *Store) BindMCP(ctx context.Context, cookieHash, newCookieHash string, p
 			return view, err
 		}
 		if active == 1 {
-			if _, err = tx.ExecContext(ctx, `UPDATE demo_sessions SET token_hash=? WHERE id=?`, newCookieHash, existing); err != nil {
+			if _, err = tx.ExecContext(ctx, `INSERT INTO browser_sessions VALUES(?,?,?)`, newCookieHash, existing, now.Add(SessionLifetime).Unix()); err != nil {
 				return view, err
 			}
 			view, err = loadSession(ctx, tx, newCookieHash, now)
@@ -57,6 +57,14 @@ func (s *Store) BindMCP(ctx context.Context, cookieHash, newCookieHash string, p
 		return view, model.Failure(403, "workspace.already-linked", "当前空间已关联其他账号，请先创建新的演示会话。")
 	}
 	if !errors.Is(err, sql.ErrNoRows) {
+		return view, err
+	}
+	// Rotate only the browser performing this login. Other browsers keep their
+	// own credentials while observing the same workspace.
+	if _, err = tx.ExecContext(ctx, `DELETE FROM browser_sessions WHERE token_hash=?`, cookieHash); err != nil {
+		return view, err
+	}
+	if _, err = tx.ExecContext(ctx, `INSERT INTO browser_sessions VALUES(?,?,?) ON CONFLICT(token_hash) DO UPDATE SET session_id=excluded.session_id,expires_at=excluded.expires_at`, newCookieHash, view.ID, now.Add(SessionLifetime).Unix()); err != nil {
 		return view, err
 	}
 	if _, err = tx.ExecContext(ctx, `UPDATE demo_sessions SET token_hash=?,expires_at=? WHERE id=?`, newCookieHash, now.Add(SessionLifetime).Unix(), view.ID); err != nil {

@@ -69,6 +69,8 @@ module.exports = (_env, argv) => {
       port: 2180,
       open: false,
       hot: true,
+      // Compression middleware buffers SSE even when the upstream flushes.
+      compress: false,
       proxy: [{ context: ['/api', '/healthz'], target: 'http://127.0.0.1:2181' }],
       historyApiFallback: true,
       static: { directory: path.join(projectRoot, 'public') },

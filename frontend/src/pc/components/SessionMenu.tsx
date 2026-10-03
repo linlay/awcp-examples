@@ -35,7 +35,7 @@ export function SessionMenu(): ReactElement {
       confirmLoading={busy} okButtonProps={{ danger: true }} onOk={() => void reset()}
       onCancel={() => { if (!busy) setConfirming(false); }}>
       <p>{t("当前会话的办理记录、表单草稿和分析条件将回到初始状态，随后返回工作台，可以重新办理。")}</p>
-      <p>{t("不会影响其他访问者的演示数据。")}</p>
+      <p>{t("同一演示空间的其他页面也会受到影响，并在开启实时同步时收到重置通知。")}</p>
       {error && <p role="alert">{error}</p>}
     </Modal>
   </>;

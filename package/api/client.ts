@@ -17,12 +17,20 @@ export class DemoApi {
   private sessionRequest: Promise<DemoSession> | undefined;
   private resetAttempt: { generation: string; requestId: string } | undefined;
   private readonly pending = new Set<AbortController>();
+  private blocked = false;
+  private workspace = '';
+
+  blockStaleSession(): void { this.blocked = true; this.cancelPending(); }
+  canWriteSession(id: string, generation: string): boolean { return !this.blocked && this.workspace === id && this.generation === generation; }
+  ownsOperation(id: string | undefined): boolean { return !!id && id === this.resetAttempt?.requestId; }
 
   constructor(private readonly fetcher: typeof fetch = (...args) => globalThis.fetch(...args)) {}
 
   adoptSession(session: DemoSession): void {
-    if (this.generation && this.generation !== session.generation) this.cancelPending();
+    if (this.generation && (this.generation !== session.generation || this.workspace !== session.id)) this.cancelPending();
     this.generation = session.generation;
+    this.workspace = session.id;
+    this.blocked = false;
     if (this.resetAttempt && this.resetAttempt.generation !== session.generation) this.resetAttempt = undefined;
   }
 
@@ -30,17 +38,17 @@ export class DemoApi {
     for (const controller of this.pending) controller.abort();
   }
 
-  session(): Promise<DemoSession> {
+  session(adopt = true): Promise<DemoSession> {
     // StrictMode and concurrent consumers must not create separate initial sessions/cookies.
     if (!this.sessionRequest) {
       this.sessionRequest = this.request<DemoSession>('/session', 'GET')
-        .then((session) => { this.adoptSession(session); return session; })
         .finally(() => { this.sessionRequest = undefined; });
     }
-    return this.sessionRequest;
+    return this.sessionRequest.then((session) => { if (adopt) this.adoptSession(session); return session; });
   }
 
   async reset(): Promise<DemoSession> {
+    if (this.blocked) throw new ApiError(409, { code: 'session.generation-conflict', message: '演示空间已变化，请先载入最新数据。' });
     if (!this.resetAttempt) this.resetAttempt = { generation: this.generation, requestId: crypto.randomUUID() };
     const attempt = this.resetAttempt;
     this.cancelPending();
@@ -53,6 +61,7 @@ export class DemoApi {
   }
 
   report(filter: ReportFilter, signal?: AbortSignal): Promise<ReportResult> {
+    if (this.blocked) return Promise.reject(new ApiError(409, { code: 'session.generation-conflict', message: '演示空间已变化，请先载入最新数据。' }));
     return this.request<ReportResult>('/reports/query', 'POST', filter, signal);
   }
 

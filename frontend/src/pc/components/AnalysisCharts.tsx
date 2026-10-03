@@ -14,7 +14,7 @@ interface Props {
 const colors = ['#3b82f6', '#10b981', '#f59e0b', '#a78bfa', '#f43f5e'];
 export function AnalysisCharts({ api, result, disabled, label, drill }: Props) {
   const { t, locale } = usePreferences();
-  const { data, loading, error, retry } = useReportCharts(api, result.filter, result.generation);
+  const { data, loading, error, retry } = useReportCharts(api, result.filter, result.generation, result.revision);
   const [metric, setMetric] = useState<'count' | 'amount'>('count');
   const gradient = useId().replace(/:/g, '');
   if (loading)

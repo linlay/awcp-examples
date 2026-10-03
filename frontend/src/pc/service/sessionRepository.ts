@@ -7,7 +7,7 @@ import { DemoRepository, type DemoStorage } from '../../common/store/repository'
  * importing, overwriting, or deleting the pre-migration localStorage key.
  * It does NOT claim that these business writes are persisted in SQLite.
  */
-export function createSessionRepository(session: DemoSession): DemoRepository {
+export function createSessionRepository(session: DemoSession, assertWritable?: () => void): DemoRepository {
   let storage: DemoStorage | undefined;
   try {
     const prefix = `awcp-session:${session.id}:${session.generation}:`;
@@ -18,5 +18,5 @@ export function createSessionRepository(session: DemoSession): DemoRepository {
       removeItem: (key) => local.removeItem(prefix + key)
     };
   } catch { storage = undefined; }
-  return new DemoRepository({ seed: session.seed, clock: new DemoClock(session.simulatedAt), storage, workbenchSamples: true });
+  return new DemoRepository({ seed: session.seed, clock: new DemoClock(session.simulatedAt), storage, workbenchSamples: true, assertWritable });
 }

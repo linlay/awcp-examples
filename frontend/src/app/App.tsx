@@ -56,7 +56,9 @@ const OfficeNewPage = lazy(() => import('../pc/pages/OfficeNewPage'));
 export function App(): ReactElement {
   const { t } = usePreferences();
   const demo = useDemoSession();
-  const [repository] = useState(() => demo ? createSessionRepository(demo.session) : createBrowserRepository());
+  const [repository] = useState(() => demo ? createSessionRepository(demo.session, () => {
+    if (!demo.api.canWriteSession(demo.session.id, demo.session.generation)) throw new Error('演示空间已变化，请先载入最新数据。');
+  }) : createBrowserRepository());
   const { pathname, navigate } = useBrowserPath();
   const route = resolveRoute(pathname);
   const scopeKey = scopeKeyForRoute(route);

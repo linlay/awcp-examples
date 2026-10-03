@@ -15,7 +15,7 @@ pnpm run dev
 - MCP URL：`http://127.0.0.1:2181/mcp`
 - 认证：`Authorization: Bearer <Access Token>`
 - Token 有效期：一小时，过期重新登录。
-- 同一 demo 账号共享一个演示空间；网页登录会轮换浏览器 Cookie。
+- 同一 demo 账号共享一个演示空间；网页登录只轮换当前浏览器 Cookie，其他浏览器的有效凭证继续可用。
 - 页面提供“撤销此账号的全部 MCP Token”。撤销同时清除未兑换授权码并断开空间；令牌只保存哈希，不写入浏览器存储。
 
 Node/pnpm 只用于开发和构建。已有前端构建后可直接 `make dev-backend`；打包运行只需要 Go 可执行文件、前端静态文件和 SQLite 数据文件。Docker 是可选打包方式。
@@ -66,6 +66,8 @@ Node/pnpm 只用于开发和构建。已有前端构建后可直接 `make dev-ba
 | demo_reset_execute | demo:reset | 校验确认凭据和幂等键后重置 |
 
 默认四个读取工具。开启重置配置并显式授权后才出现两个重置工具。浏览器中的其他业务 Action 不通过反射或快照伪装成后端工具。本次 demo 不扩大到全量业务迁移。
+
+Header 提供实时同步的关闭、仅提醒、自动更新三档，各标签页独立保存选择。SSE 使用浏览器 Cookie 连接 `/api/v1/events`；业务事件与 MCP 协议自身的传输通道分开。当前实际写事件为演示空间重置；分析页已接入查询级更新，尚在浏览器中的业务场景不宣称支持跨客户端同步。重置涉及整个空间，其他页面保留当前输入并等待用户确认载入。接入及验证说明见 [实时同步记录](realtime-progress.md)。
 
 SDK 使用官方 Go SDK v1.7.0，提供 stateless Streamable HTTP；测试覆盖 2026-07-28 和 2025-11-25。使用 `AWCP_MCP_PUBLIC_URL` 和 `AWCP_MCP_ACCESS_TOKEN` 环境变量运行 `node scripts/mcpSmoke.mjs` 可验证发现、工具列表及读取调用，脚本不打印 Token。
 

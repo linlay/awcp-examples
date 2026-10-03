@@ -83,6 +83,10 @@ func TestIsolationResetReplayAndGenerationFence(t *testing.T) {
 		t.Fatal(err)
 	}
 	before.Generation = after.Generation
+	if after.Revision <= before.Revision {
+		t.Fatal("reset did not advance the event revision")
+	}
+	before.Revision = after.Revision
 	left, _ := json.Marshal(before)
 	right, _ := json.Marshal(after)
 	if string(left) != string(right) {

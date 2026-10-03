@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"log/slog"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -40,6 +41,7 @@ func run(logger *slog.Logger) error {
 	}
 	sessions := &service.Sessions{Store: store, Profile: c.Profile}
 	server := &http.Server{Addr: c.Address, Handler: handler.New(sessions, c, logger), ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 60 * time.Second, IdleTimeout: 60 * time.Second, MaxHeaderBytes: 32 << 10}
+	server.BaseContext = func(net.Listener) context.Context { return ctx }
 	result := make(chan error, 1)
 	go func() { result <- server.ListenAndServe() }()
 	logger.Info("server starting", "address", c.Address, "profile", c.Profile)

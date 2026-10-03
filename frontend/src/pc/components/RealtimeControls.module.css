@@ -1,0 +1,30 @@
+.controls,
+.controls label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+.controls select,
+.controls button {
+  min-height: 32px;
+  padding: 4px 6px;
+  border: 1px solid var(--color-border-default);
+  border-radius: 6px;
+  background: var(--color-bg-surface);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+.controls select:focus-visible,
+.controls button:focus-visible {
+  outline: 2px solid var(--color-blue-primary);
+  outline-offset: 2px;
+}
+.connected {
+  color: var(--color-emerald-primary);
+}
+.disconnected {
+  color: var(--color-text-muted);
+}

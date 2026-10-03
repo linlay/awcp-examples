@@ -20,15 +20,15 @@ func loadSession(ctx context.Context, tx *sql.Tx, hash string, now time.Time) (m
 func loadAccess(ctx context.Context, tx *sql.Tx, access model.Access, now time.Time) (model.Session, error) {
 	var s model.Session
 	var expiry int64
-	condition := "token_hash=?"
-	args := []any{access.CookieHash, now.Unix()}
+	condition := "id=(SELECT session_id FROM browser_sessions WHERE token_hash=? AND expires_at>?)"
+	args := []any{access.CookieHash, now.Unix(), now.Unix()}
 	if access.Principal != nil && access.CookieHash == "" {
 		condition = "id=(SELECT session_id FROM mcp_workspace_bindings WHERE issuer=? AND subject=? AND enabled=1)"
 		args = []any{access.Principal.Issuer, access.Principal.Subject, now.Unix()}
 	} else if access.CookieHash == "" || access.Principal != nil {
 		return s, model.Failure(401, "session.unauthorized", "无效访问身份。")
 	}
-	err := tx.QueryRowContext(ctx, `SELECT id,generation,seed,dataset_version,profile,simulated_at,expires_at FROM demo_sessions WHERE `+condition+` AND expires_at>?`, args...).Scan(&s.ID, &s.Generation, &s.Seed, &s.DatasetVersion, &s.Profile, &s.SimulatedAt, &expiry)
+	err := tx.QueryRowContext(ctx, `SELECT id,generation,seed,dataset_version,profile,simulated_at,expires_at,event_revision FROM demo_sessions WHERE `+condition+` AND expires_at>?`, args...).Scan(&s.ID, &s.Generation, &s.Seed, &s.DatasetVersion, &s.Profile, &s.SimulatedAt, &expiry, &s.Revision)
 	if err == sql.ErrNoRows {
 		if access.Principal != nil {
 			return s, model.Failure(403, "workspace.not-linked", "请在网站登录并关联演示空间；空间可能已过期或授权已断开。")
@@ -36,6 +36,7 @@ func loadAccess(ctx context.Context, tx *sql.Tx, access model.Access, now time.T
 		return s, model.Failure(401, "session.expired", "演示会话不存在或已过期，请重新进入。")
 	}
 	s.ExpiresAt = time.Unix(expiry, 0).UTC().Format(time.RFC3339)
+	s.EventCursor = eventCursor(s.ID, s.Revision)
 	return s, err
 }
 func fillSession(ctx context.Context, tx *sql.Tx, s *model.Session) error {
@@ -92,6 +93,9 @@ func (s *Store) CreateSession(ctx context.Context, id, hash, generation, profile
 	if err != nil {
 		return model.Session{}, err
 	}
+	if _, err = tx.ExecContext(ctx, `INSERT INTO browser_sessions VALUES(?,?,?)`, hash, id, now.Add(SessionLifetime).Unix()); err != nil {
+		return model.Session{}, err
+	}
 	view, err := loadSession(ctx, tx, hash, now)
 	if err != nil {
 		return view, err
@@ -123,6 +127,11 @@ func (s *Store) SessionFor(ctx context.Context, access model.Access, now time.Ti
 		return view, err
 	}
 	view.ExpiresAt = expiry.UTC().Format(time.RFC3339)
+	if access.CookieHash != "" {
+		if _, err = tx.ExecContext(ctx, `UPDATE browser_sessions SET expires_at=? WHERE token_hash=?`, expiry.Unix(), access.CookieHash); err != nil {
+			return view, err
+		}
+	}
 	if err = fillSession(ctx, tx, &view); err != nil {
 		return view, err
 	}
@@ -142,6 +151,11 @@ func (s *Store) ResetFor(ctx context.Context, access model.Access, expected, req
 	if err != nil {
 		return view, err
 	}
+	if access.CookieHash != "" {
+		if _, err = tx.ExecContext(ctx, `UPDATE browser_sessions SET expires_at=? WHERE token_hash=?`, now.Add(SessionLifetime).Unix(), access.CookieHash); err != nil {
+			return view, err
+		}
+	}
 	if access.Principal != nil {
 		if err = authorizeReset(ctx, tx, *access.Principal, view, expected, requestID, confirmationHash, now); err != nil {
 			return view, err
@@ -150,6 +164,7 @@ func (s *Store) ResetFor(ctx context.Context, access model.Access, expected, req
 	var from, to string
 	err = tx.QueryRowContext(ctx, `SELECT from_generation,to_generation FROM reset_receipts WHERE session_id=? AND request_id=?`, view.ID, requestID).Scan(&from, &to)
 	if err == nil {
+		view.OperationID = requestID
 		if from != expected || to != view.Generation {
 			return view, model.Failure(409, "session.reset-conflict", "重置请求已用于其他数据版本，请刷新。")
 		}
@@ -197,11 +212,22 @@ func (s *Store) ResetFor(ctx context.Context, access model.Access, expected, req
 			return view, err
 		}
 	}
+	source := "browser"
+	if access.Principal != nil {
+		source = "mcp"
+	}
+	view.OperationID = requestID
+	if err = AppendEvent(ctx, tx, &view, "workspace.reset", source, requestID, []string{"session", "reports", "directory", "workspace"}, now); err != nil {
+		return view, err
+	}
 	return view, tx.Commit()
 }
 func (s *Store) Cleanup(ctx context.Context, now time.Time) error {
 	// Cascades on sessions are safe for all child tables in the same statement.
 	_, err := s.DB.ExecContext(ctx, `DELETE FROM demo_sessions WHERE expires_at<=?`, now.Unix())
+	if err == nil {
+		_, err = s.DB.ExecContext(ctx, `DELETE FROM browser_sessions WHERE expires_at<=?`, now.Unix())
+	}
 	if err == nil {
 		_, err = s.DB.ExecContext(ctx, `DELETE FROM mcp_reset_confirmations WHERE expires_at<=? AND request_key=''`, now.Unix())
 	}

@@ -14,6 +14,19 @@ type Session struct {
 	RecordCount    int          `json:"recordCount"`
 	MCPAvailable   bool         `json:"mcpAvailable"`
 	MCPConnectURL  string       `json:"mcpConnectUrl,omitempty"`
+	Revision       int64        `json:"revision"`
+	EventCursor    string       `json:"eventCursor"`
+	OperationID    string       `json:"operationId,omitempty"`
+}
+type WorkspaceEvent struct {
+	ID          string   `json:"id"`
+	WorkspaceID string   `json:"workspaceId"`
+	Generation  string   `json:"generation"`
+	Revision    int64    `json:"revision"`
+	Type        string   `json:"type"`
+	Source      string   `json:"source"`
+	OperationID string   `json:"operationId,omitempty"`
+	Resources   []string `json:"resources"`
 }
 type Employee struct {
 	ID           string   `json:"id"`
@@ -79,6 +92,7 @@ type ReportEntry struct {
 	Overdue       bool   `json:"overdue"`
 }
 type Report struct {
+	Revision   int64         `json:"revision"`
 	Generation string        `json:"generation"`
 	Filter     ReportFilter  `json:"filter"`
 	Summary    Metrics       `json:"summary"`

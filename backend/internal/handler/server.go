@@ -35,6 +35,7 @@ func New(sessions *service.Sessions, c config.Config, logger *slog.Logger) http.
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /healthz", s.health)
 	mux.HandleFunc("GET /api/v1/session", s.session)
+	mux.HandleFunc("GET /api/v1/events", s.events)
 	mux.HandleFunc("POST /api/v1/session/reset", s.reset)
 	mux.HandleFunc("POST /api/v1/reports/query", s.report)
 	if c.MCP.Enabled {

@@ -2,6 +2,23 @@ import { riskEnglish } from './riskMessages';
 // UI messages only. Business records and AWCP identifiers retain their original values.
 export const english: Readonly<Record<string, string>> = {
   ...riskEnglish,
+  "实时同步": "Live sync",
+  "关闭": "Off",
+  "仅提醒": "Notify only",
+  "自动更新": "Automatic",
+  "仅作用于本标签页": "Applies only to this tab",
+  "实时同步模式（仅本标签页）": "Live sync mode (this tab only)",
+  "实时连接正常": "Live connection active",
+  "实时连接中断，正在重连": "Disconnected; reconnecting",
+  "重试更新": "Retry update",
+  "有新数据": "Updates available",
+  "演示空间已更新。当前输入已保留，旧数据暂不可提交。": "The workspace has changed. Your input is preserved; old data cannot be submitted.",
+  "载入最新数据": "Load latest data",
+  "载入最新数据？": "Load latest data?",
+  "确认载入": "Load data",
+  "继续查看当前输入": "Keep current input",
+  "载入后当前页面会重新初始化，请先复制需要保留的未保存内容。": "Loading will reinitialize this page. Copy any unsaved input you want to keep first.",
+
   'MCP 连接': 'MCP connection',
   '服务地址': 'Server URL',
   '复制地址': 'Copy URL',
@@ -104,7 +121,7 @@ export const english: Readonly<Record<string, string>> = {
   取消: 'Cancel',
   '当前会话的办理记录、表单草稿和分析条件将回到初始状态，随后返回工作台，可以重新办理。':
     "This session's transactions, drafts and filters will be reset. You will return to the workbench to start again.",
-  '不会影响其他访问者的演示数据。': "Other visitors' demo data will not be affected.",
+  '同一演示空间的其他页面也会受到影响，并在开启实时同步时收到重置通知。': 'Other pages in the same demo workspace are also affected and receive a reset notice when live sync is enabled.',
   通用审批: 'General approval',
   差旅报销: 'Travel expenses',
   采购申请: 'Purchase request',

@@ -19,6 +19,19 @@ export interface DemoSession {
   recordCount: number;
   mcpAvailable?: boolean;
   mcpConnectUrl?: string;
+  revision?: number;
+  eventCursor?: string;
+  operationId?: string;
+}
+export interface WorkspaceEvent {
+  id: string;
+  workspaceId: string;
+  generation: string;
+  revision: number;
+  type: string;
+  source: string;
+  operationId?: string;
+  resources: string[];
 }
 export interface ApiFailure {
   code: string;
@@ -55,6 +68,7 @@ export interface ReportEntry {
   overdue: boolean;
 }
 export interface ReportResult {
+  revision?: number;
   generation: string;
   filter: ReportFilter;
   summary: ReportMetrics;

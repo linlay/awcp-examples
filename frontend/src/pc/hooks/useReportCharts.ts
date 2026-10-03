@@ -5,7 +5,7 @@ type Groups = ReportResult['groups'];
 export type ChartGroups = Record<ReportFilter['groupBy'], Groups>;
 const dimensions = ['month', 'status', 'department', 'scenario'] as const;
 
-export function useReportCharts(api: DemoApi, filter: ReportFilter, generation: string) {
+export function useReportCharts(api: DemoApi, filter: ReportFilter, generation: string, revision = 0) {
   // Paging and the detail table's grouping do not change these four aggregates.
   const key = JSON.stringify({
     from: filter.from,
@@ -13,16 +13,17 @@ export function useReportCharts(api: DemoApi, filter: ReportFilter, generation: 
     departmentId: filter.departmentId,
     scenarioId: filter.scenarioId,
     status: filter.status,
-    generation
+    generation,
+    revision
   });
   const [state, setState] = useState<{ key: string; data?: ChartGroups; error?: string }>();
   const [retry, setRetry] = useState(0);
   useEffect(() => {
     const controller = new AbortController();
-    const { generation: expectedGeneration, ...conditions } = JSON.parse(key) as Omit<
+    const { generation: expectedGeneration, revision: _revision, ...conditions } = JSON.parse(key) as Omit<
       ReportFilter,
       'groupBy' | 'page' | 'pageSize'
-    > & { generation: string };
+    > & { generation: string; revision: number };
     setState({ key });
     void Promise.all(
       dimensions.map(async (groupBy) => {

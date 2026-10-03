@@ -17,6 +17,7 @@ export interface DemoRepositoryOptions {
   storage?: DemoStorage;
   /** Full linked workbench dataset; the small replay fixtures remain the default. */
   workbenchSamples?: boolean;
+  assertWritable?: () => void;
 }
 
 function restoreRows<Row>(current: Row[], seeded: Row[], belongs: (row: Row) => boolean): Row[] {
@@ -31,8 +32,10 @@ export class DemoRepository {
   private readonly storage?: DemoStorage;
   private readonly listeners = new Set<() => void>();
   private state: DemoState;
+  private readonly assertWritable?: () => void;
 
   constructor(options: DemoRepositoryOptions = {}) {
+    this.assertWritable = options.assertWritable;
     this.seed = options.seed ?? DEFAULT_DEMO_SEED;
     this.workbenchSamples = options.workbenchSamples ?? false;
     this.clock = options.clock ?? new DemoClock();
@@ -47,6 +50,7 @@ export class DemoRepository {
   }
 
   transact<Result>(change: (draft: DemoState) => Result): Result {
+    this.assertWritable?.();
     const draft = this.snapshot();
     const result = change(draft);
     if (result && typeof result === 'object' && 'then' in result) {
@@ -59,6 +63,7 @@ export class DemoRepository {
   }
 
   reset(): DemoState {
+    this.assertWritable?.();
     this.storage?.removeItem(DEMO_STORAGE_KEY);
     this.clock.reset();
     this.state = createSeedState(this.seed, this.clock);

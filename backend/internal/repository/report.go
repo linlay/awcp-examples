@@ -28,6 +28,7 @@ func (s *Store) ReportFor(ctx context.Context, access model.Access, generation s
 	if session.Generation != generation {
 		return result, model.Failure(409, "session.generation-conflict", "数据已重置，请刷新。")
 	}
+	result.Revision = session.Revision
 	where := []string{"session_id=?"}
 	args := []any{session.ID}
 	for _, field := range []struct{ column, operator, value string }{{"created_on", ">=", f.From}, {"created_on", "<=", f.To}, {"department_id", "=", f.DepartmentID}, {"scenario_id", "=", f.ScenarioID}, {"status", "=", f.Status}} {
@@ -82,6 +83,11 @@ func (s *Store) ReportFor(ctx context.Context, access model.Access, generation s
 	rows.Close()
 	if _, err = tx.ExecContext(ctx, `UPDATE demo_sessions SET expires_at=? WHERE id=?`, now.Add(SessionLifetime).Unix(), session.ID); err != nil {
 		return result, err
+	}
+	if access.CookieHash != "" {
+		if _, err = tx.ExecContext(ctx, `UPDATE browser_sessions SET expires_at=? WHERE token_hash=?`, now.Add(SessionLifetime).Unix(), access.CookieHash); err != nil {
+			return result, err
+		}
 	}
 	return result, tx.Commit()
 }

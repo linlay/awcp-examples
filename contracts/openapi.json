@@ -258,6 +258,53 @@
           }
         }
       }
+    },
+    "/api/v1/events": {
+      "get": {
+        "operationId": "observeWorkspace",
+        "security": [
+          {
+            "demoCookie": []
+          }
+        ],
+        "description": "Cookie-authorized SSE for the current workspace. ready/heartbeat have no cursor; change contains WorkspaceEvent and an id. Last-Event-ID overrides after. Replays up to 128 events per poll; expired/foreign cursors produce sync.required. session.invalid closes the connection. No tokens in URLs.",
+        "parameters": [
+          {
+            "name": "after",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 256
+            }
+          },
+          {
+            "name": "Last-Event-ID",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "maxLength": 256
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "UTF-8 event stream; change data is WorkspaceEvent JSON.",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or expired browser session"
+          },
+          "403": {
+            "description": "Cross-origin request denied"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -368,6 +415,19 @@
           "mcpConnectUrl": {
             "type": "string",
             "format": "uri"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Committed workspace event revision captured in the same transaction as this snapshot."
+          },
+          "eventCursor": {
+            "type": "string",
+            "description": "Workspace-bound SSE resume cursor for this snapshot."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Mutation receipt identifier; present on reset responses."
           }
         },
         "required": [
@@ -380,7 +440,9 @@
           "expiresAt",
           "employees",
           "departments",
-          "recordCount"
+          "recordCount",
+          "revision",
+          "eventCursor"
         ]
       },
       "ResetInput": {
@@ -608,6 +670,11 @@
             "items": {
               "$ref": "#/components/schemas/ReportEntry"
             }
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Committed workspace event revision captured in the same transaction as this snapshot."
           }
         },
         "required": [
@@ -615,7 +682,8 @@
           "filter",
           "summary",
           "groups",
-          "items"
+          "items",
+          "revision"
         ]
       },
       "Error": {
@@ -658,6 +726,49 @@
           "code",
           "message"
         ]
+      },
+      "WorkspaceEvent": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "workspaceId",
+          "generation",
+          "revision",
+          "type",
+          "source",
+          "resources"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "workspaceId": {
+            "type": "string"
+          },
+          "generation": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "operationId": {
+            "type": "string"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "resources": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
       }
     }
   }
