@@ -1,13 +1,13 @@
 # singapore02 部署
 
-站点：https://awcp-site.zenmind.cc 。当前发布：`11fe473-demo-login-20261003`（基于 `11fe473` 加本轮公开演示登录改动，源码差异保留在发布目录的 `source-changes.patch`）。
+站点：https://awcp-site.zenmind.cc 。当前发布：`1e76cf2`（SSE 实时同步，源码已提交并推送到 origin/main）。
 
 当前公网 MCP 已启用：`https://awcp-site.zenmind.cc/mcp`，支持 OAuth + PKCE 和手动 Bearer Token；默认仅开放四个读取工具，重置工具关闭。登录入口为 `https://awcp-site.zenmind.cc/api/v1/mcp/connect`。
 
 当前为公开演示登录模式：用户名 **demo**、密码 **demo**，连接页与 OAuth 授权登录页直接展示这组演示凭据。
 
 - 服务器根目录：`/docker/awcp-site`
-- 构建产物：`releases/11fe473-demo-login-20261003`；Docker 镜像：`awcp-site:11fe473-demo-login-20261003`
+- 构建产物：`releases/1e76cf2`；Docker 镜像：`awcp-site:1e76cf2`
 - Compose：`/docker/awcp-site/compose.yaml`；`.env` 指定 `AWCP_RELEASE`
 - 容器：`awcp-site-app-1`，自动重启；仅映射 `127.0.0.1:11983:2181`
 - SQLite：`/docker/awcp-site/data/awcp.sqlite`，目录归 UID/GID 65532 所有，独立于镜像持久化
@@ -57,3 +57,17 @@ curl -fsS https://awcp-site.zenmind.cc/healthz
 部署：后端重新构建为 Linux/amd64，复用 `11fe473` 的前端资产，创建独立镜像 `awcp-site:11fe473-demo-login-20261003`。发布前备份配置和 SQLite 至 `/docker/awcp-site/backups/20261003T043531Z-before-public-demo-login`，数据库完整性检查通过。新二进制本地与远端 SHA-256 一致：`5f7360e90a1e45365e8bc1558b3235f874aa54f7fade4c9a3d9751b1331ec69b`。旧镜像和配置备份保留。
 
 验证：全部后端测试及 Linux 构建通过；新增测试覆盖公开模式配置、私有密码不展示、两种登录页提示与两种登录流程。公网 HTTP 验证登录页提示、正确密码登录、错误密码拒绝、OAuth 发现、动态注册、PKCE 兑换、MCP 四个读取工具与历史查询通过；测试令牌已撤销并验证返回 401。密码变更会使旧 Token 失效。浏览器预览工具超时，本轮没有完成视觉验收；页面内容与登录功能已通过真实 HTTPS 验证。未修改前端源码，未重新运行前端测试。
+
+
+## SSE 上线（2026-10-03）
+
+已将提交 `1e76cf2` 的前端与 Linux/amd64 后端重新构建并部署。部署前在线备份 SQLite 及 `.env`、Compose、Nginx 至 `/docker/awcp-site/backups/20261003T073445Z-before-1e76cf2-sse`，数据库完整性检查通过；旧镜像继续保留。迁移 004 已应用，浏览器凭证与共享空间分离。回退此迁移必须恢复匹配的旧数据库备份，不能只切回旧镜像。
+
+Nginx 在既有配置中新增 SSE 精确路由，禁用代理缓冲、缓存与 gzip，设置 65 秒读取超时并启用 HTTP/2。原 MCP/OAuth 路由、公开 demo/demo 登录和只读工具范围保持不变。配置校验通过，仍有同端口多个站点 protocol options 重定义告警。
+
+验证：容器 `awcp-site:1e76cf2` 持续运行；公网 TLS 和 HTTP/2 健康接口 200；会话与 24,000 条历史样本查询正常；公网 SSE 的 ready、15 秒心跳和禁用压缩通过；OAuth 发现与登录入口正常；实际登录的两套浏览器凭证同时访问同一 MCP 空间及 SSE；四个只读 MCP 工具、上下文和分析调用通过。本次测试令牌已逐一撤销，没有执行空间重置或业务写操作。前端主包与 Linux 二进制本地／远端 SHA-256 一致：
+
+- 后端：`bcb1ca91b600f514ab31f497a494c6d3de1e4cff98ed2e5e7578bbca62f78987`
+- 前端 `main.8f01934d.js`：`0cd3a4d4518fc044318c302bdf395778ed3f152b7e51c1a61eac027581dfa491`
+
+未执行线上空间重置、备份恢复演练、容量压测或完整 OAuth PKCE 重跑；相关实现和本地验证见 [SSE 实施记录](../docs/realtime-progress.md)。前端构建仍有主包体积告警。
