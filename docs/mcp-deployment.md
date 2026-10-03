@@ -32,10 +32,11 @@ Node/pnpm 只用于开发和构建。已有前端构建后可直接 `make dev-ba
 | AWCP_MCP_PUBLIC_URL | http://127.0.0.1:2181/mcp | 精确 MCP 地址，issuer 使用同一 origin |
 | AWCP_MCP_USERNAME | demo | 演示账号 |
 | AWCP_MCP_PASSWORD | demo | 演示密码 |
+| AWCP_MCP_PUBLIC_DEMO_LOGIN | false | 显式允许公开 demo / demo，并在两种登录页显示凭据 |
 | AWCP_MCP_RESET_ENABLED | false | 是否开放重置工具 |
 | AWCP_MCP_MAX_CONCURRENT | 8 | MCP 请求并发上限 |
 
-公网使用 HTTPS、精确的 `AWCP_ALLOWED_ORIGINS` 及自定义密码（至少八位）。修改账号、密码、issuer 或资源地址后，旧令牌和授权码失效。原有部署 Compose 默认保持 MCP 关闭；启用时设置 `AWCP_MCP_ENABLED=true` 与自定义 `AWCP_MCP_PASSWORD`，仍只有 app 一个容器。无需重新安装任何镜像。
+公网使用 HTTPS、精确的 `AWCP_ALLOWED_ORIGINS`，默认要求自定义密码（至少八位）。纯公开演示站可以显式设置 `AWCP_MCP_PUBLIC_DEMO_LOGIN=true`，同时把用户名和密码均设为 `demo`；连接登录页和 OAuth 授权登录页会显示“用户名 demo，密码 demo”。该模式只接受固定演示凭据，不展示自定义密码。修改账号、密码、issuer 或资源地址后，旧令牌和授权码失效。原有部署 Compose 默认保持 MCP 关闭；启用时设置 `AWCP_MCP_ENABLED=true` 并选择上述登录模式，仍只有 app 一个容器。
 
 ## 标准 OAuth 客户端
 

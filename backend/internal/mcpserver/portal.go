@@ -26,7 +26,7 @@ type Portal struct {
 }
 type portalView struct {
 	MCPURL, Action, Nonce, Token, Expires, Message, Workspace, ClientName, Redirect, Scopes string
-	CanReset, OAuth                                                                         bool
+	CanReset, OAuth, PublicDemoLogin                                                        bool
 	CSS                                                                                     template.CSS
 }
 
@@ -43,6 +43,7 @@ var portalTemplate = template.Must(template.New("portal").Parse(`<!doctype html>
 <textarea readonly aria-label="Access Token" rows="3" spellcheck="false">{{.Token}}</textarea><p>到期时间：{{.Expires}}</p><p>演示空间：{{.Workspace}}</p>
 {{else if .Nonce}}
 {{if .OAuth}}<p>客户端：<strong>{{.ClientName}}</strong></p><p>返回地址：{{.Redirect}}</p><p>申请权限：{{.Scopes}}</p><p>只授权你正在配置的客户端。</p>{{end}}
+{{if .PublicDemoLogin}}<p role="note" aria-label="演示登录信息">公开演示账号：用户名 <strong>demo</strong>，密码 <strong>demo</strong>。</p>{{end}}
 <form method="post" action="{{.Action}}"><input type="hidden" name="nonce" value="{{.Nonce}}">
 <p><label>用户名 <input name="username" autocomplete="username" value="demo" required maxlength="128"></label></p>
 <p><label>密码 <input type="password" name="password" autocomplete="current-password" required maxlength="1024"></label></p>
@@ -96,6 +97,7 @@ func (p *Portal) page(w http.ResponseWriter, status int, v portalView) {
 	w.Header().Set("Content-Security-Policy", "default-src 'none'; style-src 'sha256-"+base64.StdEncoding.EncodeToString(style[:])+"'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'")
 	v.MCPURL = p.MCP.Config.PublicURL
 	v.CanReset = p.MCP.Config.EnableReset
+	v.PublicDemoLogin = p.MCP.Config.PublicDemoLogin
 	v.CSS = template.CSS(portalCSS)
 	v.Action = "/api/v1/mcp/connect/start"
 	if v.OAuth {

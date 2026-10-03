@@ -12,6 +12,7 @@ type MCP struct {
 	PublicURL, Issuer  string
 	Username, Password string
 	EnableReset        bool
+	PublicDemoLogin    bool
 	MaxConcurrent      int
 }
 
@@ -29,6 +30,12 @@ func loadMCP(origins []string) (MCP, error) {
 	if !c.Enabled {
 		return c, nil
 	}
+	if c.PublicDemoLogin, err = strconv.ParseBool(value("AWCP_MCP_PUBLIC_DEMO_LOGIN", "false")); err != nil {
+		return c, fmt.Errorf("AWCP_MCP_PUBLIC_DEMO_LOGIN must be boolean")
+	}
+	if c.PublicDemoLogin && (c.Username != "demo" || c.Password != "demo") {
+		return c, fmt.Errorf("public demo login requires username and password demo")
+	}
 	if c.EnableReset, err = strconv.ParseBool(value("AWCP_MCP_RESET_ENABLED", "false")); err != nil {
 		return c, fmt.Errorf("AWCP_MCP_RESET_ENABLED must be boolean")
 	}
@@ -39,7 +46,7 @@ func loadMCP(origins []string) (MCP, error) {
 	if err != nil || u.Path != "/mcp" {
 		return c, fmt.Errorf("AWCP_MCP_PUBLIC_URL must be HTTPS ending in /mcp (HTTP allowed on loopback)")
 	}
-	if !loopback(u.Hostname()) && (c.Password == "demo" || len(c.Password) < 8) {
+	if !c.PublicDemoLogin && !loopback(u.Hostname()) && (c.Password == "demo" || len(c.Password) < 8) {
 		return c, fmt.Errorf("set AWCP_MCP_PASSWORD (at least 8 characters) for a public demo")
 	}
 	if len(c.Username) > 128 || len(c.Password) > 1024 {

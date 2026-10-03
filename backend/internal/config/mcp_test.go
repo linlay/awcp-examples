@@ -3,6 +3,7 @@ package config
 import "testing"
 
 func TestMCPDemoConfig(t *testing.T) {
+	t.Setenv("AWCP_MCP_PUBLIC_DEMO_LOGIN", "false")
 	t.Setenv("AWCP_MCP_ENABLED", "true")
 	t.Setenv("AWCP_MCP_PUBLIC_URL", "http://127.0.0.1:2181/mcp")
 	t.Setenv("AWCP_MCP_PASSWORD", "demo")
@@ -25,5 +26,32 @@ func TestMCPDemoConfig(t *testing.T) {
 		if _, err = Load(); err == nil {
 			t.Fatalf("accepted %s", raw)
 		}
+	}
+}
+
+func TestExplicitPublicDemoLogin(t *testing.T) {
+	t.Setenv("AWCP_MCP_ENABLED", "true")
+	t.Setenv("AWCP_MCP_PUBLIC_URL", "https://app.example/mcp")
+	t.Setenv("AWCP_ALLOWED_ORIGINS", "https://app.example")
+	t.Setenv("AWCP_MCP_USERNAME", "demo")
+	t.Setenv("AWCP_MCP_PASSWORD", "demo")
+	t.Setenv("AWCP_MCP_PUBLIC_DEMO_LOGIN", "true")
+	c, err := Load()
+	if err != nil || !c.MCP.PublicDemoLogin {
+		t.Fatalf("explicit demo mode: %v", err)
+	}
+	t.Setenv("AWCP_MCP_PASSWORD", "private-password")
+	if _, err := Load(); err == nil {
+		t.Fatal("accepted private password with public display enabled")
+	}
+	t.Setenv("AWCP_MCP_PASSWORD", "demo")
+	t.Setenv("AWCP_MCP_USERNAME", "other-user")
+	if _, err := Load(); err == nil {
+		t.Fatal("accepted non-demo username in public demo mode")
+	}
+	t.Setenv("AWCP_MCP_USERNAME", "demo")
+	t.Setenv("AWCP_MCP_PUBLIC_DEMO_LOGIN", "invalid")
+	if _, err := Load(); err == nil {
+		t.Fatal("accepted invalid demo login flag")
 	}
 }

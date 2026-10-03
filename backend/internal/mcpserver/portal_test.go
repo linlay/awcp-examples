@@ -113,6 +113,9 @@ func authorize(t *testing.T, h *mcpserver.Handler, p *mcpserver.Portal, client, 
 	q := url.Values{"client_id": {client}, "response_type": {"code"}, "redirect_uri": {"http://127.0.0.1:8989/callback"}, "resource": {h.Config.PublicURL}, "scope": {"context:read reports:read"}, "code_challenge": {base64.RawURLEncoding.EncodeToString(sum[:])}, "code_challenge_method": {"S256"}, "state": {"client-state"}}
 	page := httptest.NewRecorder()
 	p.Authorize(page, request("GET", "/api/v1/mcp/oauth/authorize?"+q.Encode(), nil, nil))
+	if strings.Contains(page.Body.String(), `aria-label="演示登录信息"`) != h.Config.PublicDemoLogin {
+		t.Fatal("OAuth login credential visibility does not match demo mode")
+	}
 	n := nonce(t, page)
 	cookie := page.Result().Cookies()[0]
 	// The authorization form must belong to this browser.
@@ -204,5 +207,36 @@ func TestOAuthRejectsUnsafeRedirectAndPasswordGrant(t *testing.T) {
 	p.Authorize(rec, request("GET", "/api/v1/mcp/oauth/authorize?client_id="+client+"&redirect_uri=https://evil.example", nil, nil))
 	if rec.Code != 400 || rec.Header().Get("Location") != "" {
 		t.Fatal("open redirect")
+	}
+}
+
+func TestPublicDemoCredentialsAndBothLoginFlows(t *testing.T) {
+	for _, publicDemo := range []bool{false, true} {
+		t.Run(map[bool]string{false: "private", true: "public-demo"}[publicDemo], func(t *testing.T) {
+			h, _, _ := setup(t)
+			if publicDemo {
+				h.Config.Username, h.Config.Password = "demo", "demo"
+				h.Config.PublicDemoLogin = true
+				h.Auth.Config = h.Config
+			}
+			p := mcpserver.NewPortal(h)
+			page := httptest.NewRecorder()
+			p.Index(page, request("GET", "/api/v1/mcp/connect", nil, nil))
+			if strings.Contains(page.Body.String(), `用户名 <strong>demo</strong>，密码 <strong>demo</strong>`) != publicDemo {
+				t.Fatal("manual login credential visibility does not match demo mode")
+			}
+			if !publicDemo && strings.Contains(page.Body.String(), h.Config.Password) {
+				t.Fatal("private password appeared on login page")
+			}
+			token, _, _ := portalLogin(t, h, p)
+			if _, _, err := h.Auth.Verify(context.Background(), token); err != nil {
+				t.Fatal("manual login token rejected", err)
+			}
+			client, verifier := register(t, h), authn.Secret()
+			code := authorize(t, h, p, client, verifier)
+			if result := exchange(h, client, code, verifier, h.Config.PublicURL); result.Code != 200 {
+				t.Fatalf("OAuth token exchange: %d", result.Code)
+			}
+		})
 	}
 }

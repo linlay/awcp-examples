@@ -16,6 +16,7 @@ services:
       AWCP_MCP_PUBLIC_URL: https://awcp-site.zenmind.cc/mcp
       AWCP_MCP_USERNAME: ${AWCP_MCP_USERNAME:-demo}
       AWCP_MCP_PASSWORD: ${AWCP_MCP_PASSWORD:-}
+      AWCP_MCP_PUBLIC_DEMO_LOGIN: ${AWCP_MCP_PUBLIC_DEMO_LOGIN:-false}
       AWCP_MCP_RESET_ENABLED: ${AWCP_MCP_RESET_ENABLED:-false}
     volumes:
       - ./data:/data
